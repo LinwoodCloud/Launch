@@ -11,12 +11,16 @@ class AppTile extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: InkWell(
-        onTap: () {},
+        onTap: entry.onTap,
         child: Container(
             height: 150,
             width: 150,
             padding: EdgeInsets.all(16.0),
-            child: Column(children: [Expanded(child: FlutterLogo(size: 64)), Text(entry.name)])),
+            child: Column(children: [
+              Expanded(
+                  child: Builder(builder: (context) => entry.buildWidget(context) ?? Container())),
+              Text(entry.name)
+            ])),
       ),
     );
   }

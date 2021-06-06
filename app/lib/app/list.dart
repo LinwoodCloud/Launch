@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import 'entry.dart';
 import 'tile.dart';
@@ -32,7 +33,7 @@ class AppList extends StatelessWidget {
                     ],
                   )),
                   IconButton(
-                    icon: Icon(Icons.edit_outlined),
+                    icon: Icon(PhosphorIcons.pencilLight),
                     onPressed: () {},
                   )
                 ],
