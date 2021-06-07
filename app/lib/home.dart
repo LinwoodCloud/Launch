@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:linwood_launcher_app/app/entry.dart';
 import 'package:linwood_launcher_app/app/list.dart';
+import 'package:linwood_launcher_app/settings/personalization.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class HomePage extends StatefulWidget {
@@ -61,9 +62,12 @@ class _HomePageState extends State<HomePage> {
                   ));
         }),
         SystemEntry("Personalization",
-            widget: Icon(PhosphorIcons.fadersLight, size: 42), onClick: () {}),
+            widget: Icon(PhosphorIcons.fadersLight, size: 42),
+            onClick: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => PersonalizationSettingsPage()))),
         SystemEntry("Updates",
-            widget: Icon(PhosphorIcons.arrowCounterClockwiseLight, size: 42), onClick: () {})
+            widget: Icon(PhosphorIcons.arrowCounterClockwiseLight, size: 42), onClick: () {}),
+        SystemEntry("Changelog", widget: Icon(PhosphorIcons.archiveLight, size: 42), onClick: () {})
       ])
     ]));
   }

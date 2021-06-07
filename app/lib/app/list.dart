@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import 'entry.dart';
 import 'tile.dart';
 
 class AppList extends StatelessWidget {
   final List<AppEntry> apps;
+  final Widget? trailing;
+  final Widget? leading;
   final String title;
   final String description;
 
-  const AppList({Key? key, this.apps = const [], this.title = "", this.description = ""})
+  const AppList(
+      {Key? key,
+      this.apps = const [],
+      this.title = "",
+      this.description = "",
+      this.trailing,
+      this.leading})
       : super(key: key);
 
   @override
@@ -25,6 +32,7 @@ class AppList extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
+                  if (leading != null) leading!,
                   Expanded(
                       child: Column(
                     children: [
@@ -32,10 +40,7 @@ class AppList extends StatelessWidget {
                       Text(description)
                     ],
                   )),
-                  IconButton(
-                    icon: Icon(PhosphorIcons.pencilLight),
-                    onPressed: () {},
-                  )
+                  if (trailing != null) trailing!
                 ],
               ),
             ),
