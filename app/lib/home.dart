@@ -60,10 +60,15 @@ class _HomePageState extends State<HomePage> {
                     content: Center(child: Icon(PhosphorIcons.wrenchLight)),
                   ));
         }),
+        SystemEntry("Apps", widget: Icon(PhosphorIcons.appWindowLight, size: 42), onClick: () {}),
         SystemEntry("Personalization",
             widget: Icon(PhosphorIcons.fadersLight, size: 42), onClick: () {}),
         SystemEntry("Updates",
-            widget: Icon(PhosphorIcons.arrowCounterClockwiseLight, size: 42), onClick: () {})
+            widget: Icon(PhosphorIcons.arrowCounterClockwiseLight, size: 42), onClick: () {}),
+        SystemEntry("Wifi", widget: Icon(PhosphorIcons.wifiHighLight, size: 42), onClick: () {}),
+        SystemEntry("Bluetooth",
+            widget: Icon(PhosphorIcons.bluetoothLight, size: 42), onClick: () {}),
+        SystemEntry("Information", widget: Icon(PhosphorIcons.infoLight, size: 42), onClick: () {})
       ])
     ]));
   }

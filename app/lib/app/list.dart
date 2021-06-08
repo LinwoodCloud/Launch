@@ -7,9 +7,11 @@ import 'tile.dart';
 class AppList extends StatelessWidget {
   final List<AppEntry> apps;
   final String title;
+  final ScrollController _scrollController = ScrollController();
   final String description;
+  final Widget? trailing;
 
-  const AppList({Key? key, this.apps = const [], this.title = "", this.description = ""})
+  AppList({Key? key, this.apps = const [], this.title = "", this.description = "", this.trailing})
       : super(key: key);
 
   @override
@@ -32,15 +34,14 @@ class AppList extends StatelessWidget {
                       Text(description)
                     ],
                   )),
-                  IconButton(
-                    icon: Icon(PhosphorIcons.pencilLight),
-                    onPressed: () {},
-                  )
+                  if (trailing != null) trailing!
                 ],
               ),
             ),
             Scrollbar(
+              controller: _scrollController,
               child: SingleChildScrollView(
+                  controller: _scrollController,
                   scrollDirection: Axis.horizontal,
                   child: Row(children: apps.map((e) => AppTile(e)).toList())),
             )
