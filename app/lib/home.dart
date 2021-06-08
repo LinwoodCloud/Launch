@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:linwood_launcher_app/app/entry.dart';
 import 'package:linwood_launcher_app/app/list.dart';
+import 'package:linwood_launcher_app/panels/search_bar.dart';
 import 'package:linwood_launcher_app/settings/personalization.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(children: [
+      SearchBarPanel(SearchEngine.defaultEngines[0]).buildWidget(context),
       AppList(title: "Opened apps"),
       AppList(title: "All apps", apps: [
         WebEntry("Search", url: "https://example.com"),
@@ -40,10 +42,16 @@ class _HomePageState extends State<HomePage> {
                       content: SingleChildScrollView(
                         child: Column(
                           children: [
-                            ListTile(onTap: () {}, title: Text("All apps")),
-                            ListTile(onTap: () {}, title: Text("Recently apps")),
-                            ListTile(onTap: () {}, title: Text("Featured apps")),
-                            ListTile(onTap: () {}, title: Text("Custom apps")),
+                            ListTile(title: Text("Search bar")),
+                            ExpansionTile(title: Text("App List"), children: [
+                              ListTile(onTap: () {}, title: Text("All apps")),
+                              ListTile(
+                                  onTap: () {}, title: Text("Recently apps")),
+                              ListTile(
+                                  onTap: () {}, title: Text("Featured apps")),
+                              ListTile(
+                                  onTap: () {}, title: Text("Custom apps")),
+                            ]),
                           ],
                         ),
                       ),
@@ -64,8 +72,8 @@ class _HomePageState extends State<HomePage> {
         }), */
         SystemEntry("Personalization",
             widget: Icon(PhosphorIcons.fadersLight),
-            onClick: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => PersonalizationSettingsPage()))),
+            onClick: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => PersonalizationSettingsPage()))),
         /* SystemEntry("Updates",
             widget: Icon(PhosphorIcons.arrowCounterClockwiseLight), onClick: () {}), */
         SystemEntry("Code",
