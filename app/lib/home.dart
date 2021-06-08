@@ -46,12 +46,9 @@ class _HomePageState extends State<HomePage> {
                             ListTile(title: Text("Search bar")),
                             ExpansionTile(title: Text("App List"), children: [
                               ListTile(onTap: () {}, title: Text("All apps")),
-                              ListTile(
-                                  onTap: () {}, title: Text("Recently apps")),
-                              ListTile(
-                                  onTap: () {}, title: Text("Featured apps")),
-                              ListTile(
-                                  onTap: () {}, title: Text("Custom apps")),
+                              ListTile(onTap: () {}, title: Text("Recently apps")),
+                              ListTile(onTap: () {}, title: Text("Featured apps")),
+                              ListTile(onTap: () {}, title: Text("Custom apps")),
                             ]),
                           ],
                         ),
@@ -73,8 +70,8 @@ class _HomePageState extends State<HomePage> {
         }), */
         SystemEntry("Personalization",
             widget: Icon(PhosphorIcons.fadersLight),
-            onClick: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => PersonalizationSettingsPage()))),
+            onClick: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => PersonalizationSettingsPage()))),
         /* SystemEntry("Updates",
             widget: Icon(PhosphorIcons.arrowCounterClockwiseLight), onClick: () {}), */
         SystemEntry("Code",
@@ -82,8 +79,17 @@ class _HomePageState extends State<HomePage> {
             onClick: () => launch("https://github.com/LinwoodCloud/Launcher")),
         SystemEntry("Search Engines",
             widget: Icon(PhosphorIcons.magnifyingGlassLight),
-            onClick: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => SearchEnginesSettingsPage())))
+            onClick: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => SearchEnginesSettingsPage()))),
+        SystemEntry("Apps", widget: Icon(PhosphorIcons.appWindowLight, size: 42), onClick: () {}),
+        SystemEntry("Personalization",
+            widget: Icon(PhosphorIcons.fadersLight, size: 42), onClick: () {}),
+        SystemEntry("Updates",
+            widget: Icon(PhosphorIcons.arrowCounterClockwiseLight, size: 42), onClick: () {}),
+        SystemEntry("Wifi", widget: Icon(PhosphorIcons.wifiHighLight, size: 42), onClick: () {}),
+        SystemEntry("Bluetooth",
+            widget: Icon(PhosphorIcons.bluetoothLight, size: 42), onClick: () {}),
+        SystemEntry("Information", widget: Icon(PhosphorIcons.infoLight, size: 42), onClick: () {})
       ])
     ]));
   }

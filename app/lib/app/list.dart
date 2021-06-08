@@ -8,9 +8,10 @@ class AppList extends StatelessWidget {
   final Widget? trailing;
   final Widget? leading;
   final String title;
+  final ScrollController _scrollController = ScrollController();
   final String description;
 
-  const AppList(
+  AppList(
       {Key? key,
       this.apps = const [],
       this.title = "",
@@ -45,7 +46,9 @@ class AppList extends StatelessWidget {
               ),
             ),
             Scrollbar(
+              controller: _scrollController,
               child: SingleChildScrollView(
+                  controller: _scrollController,
                   scrollDirection: Axis.horizontal,
                   child: Row(children: apps.map((e) => AppTile(e)).toList())),
             )
