@@ -3,6 +3,7 @@ import 'package:linwood_launcher_app/app/entry.dart';
 import 'package:linwood_launcher_app/app/list.dart';
 import 'package:linwood_launcher_app/settings/personalization.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,11 +19,11 @@ class _HomePageState extends State<HomePage> {
         body: ListView(children: [
       AppList(title: "Opened apps"),
       AppList(title: "All apps", apps: [
-        WebEntry("Search", url: "example.com"),
-        WebEntry("Search", url: "example.com"),
-        WebEntry("Search", url: "example.com"),
-        WebEntry("Search", url: "example.com"),
-        WebEntry("Search", url: "example.com")
+        WebEntry("Search", url: "https://example.com"),
+        WebEntry("Search", url: "https://example.com"),
+        WebEntry("Search", url: "https://example.com"),
+        WebEntry("Search", url: "https://example.com"),
+        WebEntry("Search", url: "https://example.com")
       ]),
       OutlinedButton.icon(
           onPressed: () {
@@ -53,21 +54,23 @@ class _HomePageState extends State<HomePage> {
           style: OutlinedButton.styleFrom(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20))),
       AppList(title: "System", description: "Useful system apps", apps: [
-        SystemEntry("General", widget: Icon(PhosphorIcons.wrenchLight, size: 42), onClick: () {
+        /* SystemEntry("General", widget: Icon(PhosphorIcons.wrenchLight), onClick: () {
           showDialog(
               context: context,
               builder: (context) => AlertDialog(
                     title: Text("General settings"),
                     content: Center(child: Icon(PhosphorIcons.wrenchLight)),
                   ));
-        }),
+        }), */
         SystemEntry("Personalization",
-            widget: Icon(PhosphorIcons.fadersLight, size: 42),
+            widget: Icon(PhosphorIcons.fadersLight),
             onClick: () => Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => PersonalizationSettingsPage()))),
-        SystemEntry("Updates",
-            widget: Icon(PhosphorIcons.arrowCounterClockwiseLight, size: 42), onClick: () {}),
-        SystemEntry("Changelog", widget: Icon(PhosphorIcons.archiveLight, size: 42), onClick: () {})
+        /* SystemEntry("Updates",
+            widget: Icon(PhosphorIcons.arrowCounterClockwiseLight), onClick: () {}), */
+        SystemEntry("Code",
+            widget: Icon(PhosphorIcons.codeLight),
+            onClick: () => launch("https://github.com/LinwoodCloud/Launcher"))
       ])
     ]));
   }

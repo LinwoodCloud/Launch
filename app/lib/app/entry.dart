@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 typedef void SystemCallback();
 
@@ -19,13 +20,11 @@ class WebEntry extends AppEntry {
 
   @override
   Widget? buildWidget(BuildContext context) {
-    return Icon(PhosphorIcons.globeLight, size: 42);
+    return Icon(PhosphorIcons.globeLight);
   }
 
   @override
-  void onTap() {
-    print(url);
-  }
+  void onTap() => launch(url);
 }
 
 class CommandEntry extends AppEntry {
@@ -38,7 +37,7 @@ class CommandEntry extends AppEntry {
   }
 
   @override
-  Widget? buildWidget(BuildContext context) => Icon(PhosphorIcons.terminalLight, size: 42);
+  Widget? buildWidget(BuildContext context) => Icon(PhosphorIcons.terminalLight);
 }
 
 class SystemEntry extends AppEntry {

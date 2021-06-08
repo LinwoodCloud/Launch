@@ -27,7 +27,8 @@ class MyApp extends StatelessWidget {
           animation: themeController!,
           builder: (context, _) {
             // wrap app in inherited widget to provide the ThemeController to all pages
-            return ThemeControllerProvider(controller: themeController!, child: _buildApp());
+            return ThemeControllerProvider(
+                controller: themeController!, child: _buildApp());
           });
     return _buildApp();
   }
@@ -36,7 +37,10 @@ class MyApp extends StatelessWidget {
         title: 'Linwood Launcher',
         themeMode: themeController?.currentTheme,
         theme: ThemeData(primarySwatch: Colors.blue),
-        darkTheme: ThemeData(brightness: Brightness.dark, primarySwatch: Colors.blue),
+        darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            primarySwatch: Colors.blue,
+            primaryColor: Colors.blue),
         home: HomePage(),
       );
 }

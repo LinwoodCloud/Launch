@@ -1,6 +1,6 @@
 {
-    "name": "linwood_launcher_app",
-    "short_name": "linwood_launcher_app",
+    "name": "Linwood Launcher",
+    "short_name": "Linwood Launcher",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
