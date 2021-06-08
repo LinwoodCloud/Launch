@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:linwood_launcher_app/panels/panel.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -56,6 +59,25 @@ class SearchBarWidget extends StatefulWidget {
 }
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
+  List<SearchEngine> searchEngines = [];
+  late SharedPreferences _prefs;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _initPrefs();
+  }
+
+  Future<void> _initPrefs() async {
+    _prefs = await SharedPreferences.getInstance();
+    setState(() => searchEngines = _prefs
+            .getStringList("search-engines")
+            ?.map((e) => SearchEngine.fromJson(json.decode(e)))
+            .toList() ??
+        []);
+  }
+
   @override
   Widget build(BuildContext context) {
     var _controller = TextEditingController();
@@ -85,7 +107,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                   onSelected: (value) =>
                       setState(() => widget.panel.searchEngine = value),
                   itemBuilder: (context) => [
-                        ...SearchEngine.defaultEngines.map(
+                        ...searchEngines.map(
                             (e) => PopupMenuItem(child: Text(e.name), value: e))
                       ])
             ])));

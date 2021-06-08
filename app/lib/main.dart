@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:linwood_launcher_app/panels/search_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
@@ -7,6 +10,13 @@ import 'theme.dart';
 void main() async {
   // load the shared preferences from disk before the app is started
   final prefs = await SharedPreferences.getInstance();
+
+  if (!prefs.containsKey("search-engines"))
+    prefs.setStringList(
+        "search-engines",
+        SearchEngine.defaultEngines
+            .map((e) => json.encode(e.toJson()))
+            .toList());
 
   // create new theme controller, which will get the currently selected from shared preferences
   final themeController = ThemeController(prefs);

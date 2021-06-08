@@ -3,6 +3,7 @@ import 'package:linwood_launcher_app/app/entry.dart';
 import 'package:linwood_launcher_app/app/list.dart';
 import 'package:linwood_launcher_app/panels/search_bar.dart';
 import 'package:linwood_launcher_app/settings/personalization.dart';
+import 'package:linwood_launcher_app/settings/search_engines.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -78,7 +79,11 @@ class _HomePageState extends State<HomePage> {
             widget: Icon(PhosphorIcons.arrowCounterClockwiseLight), onClick: () {}), */
         SystemEntry("Code",
             widget: Icon(PhosphorIcons.codeLight),
-            onClick: () => launch("https://github.com/LinwoodCloud/Launcher"))
+            onClick: () => launch("https://github.com/LinwoodCloud/Launcher")),
+        SystemEntry("Search Engines",
+            widget: Icon(PhosphorIcons.magnifyingGlassLight),
+            onClick: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => SearchEnginesSettingsPage())))
       ])
     ]));
   }
