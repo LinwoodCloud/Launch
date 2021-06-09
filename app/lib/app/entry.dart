@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-typedef void SystemCallback();
+typedef SystemCallback = void Function();
 
 abstract class AppEntry {
   final String name;

@@ -1,58 +1,61 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:get_it/get_it.dart';
 import 'package:linwood_launcher_app/panels/panel.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'layout.dart';
+import 'service.dart';
 
 class SearchEngine {
   final String name;
   final String queryUrl;
 
-  static const defaultEngines = const [
+  static const defaultEngines = [
     SearchEngine(name: "Google", queryUrl: "https://google.com/search?q=%s"),
     SearchEngine(name: "Ecosia", queryUrl: "https://ecosia.com/search?q=%"),
-    SearchEngine(
-        name: "Wikipedia",
-        queryUrl: "https://wikipedia.org/w/index.php?search=%s&ns0=1"),
+    SearchEngine(name: "Wikipedia", queryUrl: "https://wikipedia.org/w/index.php?search=%s&ns0=1"),
     SearchEngine(name: "Amazon", queryUrl: "https://amazon.com/s?k=%s"),
     SearchEngine(name: "Bing", queryUrl: "https://bing.com/search?q=%s"),
-    SearchEngine(
-        name: "Pixabay", queryUrl: "https://pixabay.com/images/search/%s"),
+    SearchEngine(name: "Pixabay", queryUrl: "https://pixabay.com/images/search/%s"),
     SearchEngine(name: "DuckDuckGo", queryUrl: "https://duckduckgo.com/?q=%s"),
     SearchEngine(name: "Ebay", queryUrl: "https://ebay.com/sch/?_nkw=%s"),
   ];
 
   const SearchEngine({required this.name, required this.queryUrl});
   SearchEngine.fromJson(Map<String, dynamic> json)
-      : name = json['name'],
-        queryUrl = json['query-url'];
+      : name = json['name'] as String,
+        queryUrl = json['query-url'] as String;
 
   Map<String, dynamic> toJson() => {"name": name, "query-url": queryUrl};
 }
 
 class SearchBarPanel extends Panel {
-  SearchEngine searchEngine;
+  final SearchEngine searchEngine;
 
-  SearchBarPanel(this.searchEngine);
+  SearchBarPanel({required this.searchEngine});
 
   SearchBarPanel.fromJson(Map<String, dynamic> json)
-      : searchEngine = SearchEngine.fromJson(json['search-engine']),
+      : searchEngine = SearchEngine.fromJson(json['search-engine'] as Map<String, dynamic>),
         super.fromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => {"search-engine": searchEngine.toJson()};
+  Map<String, dynamic> toJson() => {"search-engine": searchEngine.toJson(), "type": "search-bar"};
 
   @override
-  Widget buildWidget(BuildContext context) => SearchBarWidget(panel: this);
+  Widget buildWidget(PanelLayout panelLayout, BuildContext context) =>
+      SearchBarWidget(panelLayout: panelLayout, panel: this);
+
+  SearchBarPanel copyWith({SearchEngine? searchEngine}) =>
+      SearchBarPanel(searchEngine: searchEngine ?? this.searchEngine);
 }
 
 class SearchBarWidget extends StatefulWidget {
   final SearchBarPanel panel;
-  const SearchBarWidget({Key? key, required this.panel}) : super(key: key);
+  final PanelLayout panelLayout;
+  const SearchBarWidget({Key? key, required this.panel, required this.panelLayout})
+      : super(key: key);
 
   @override
   _SearchBarWidgetState createState() => _SearchBarWidgetState();
@@ -60,31 +63,26 @@ class SearchBarWidget extends StatefulWidget {
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
   List<SearchEngine> searchEngines = [];
-  late SharedPreferences _prefs;
+  late PanelService service;
+  late SearchBarPanel panel;
 
   @override
   void initState() {
     super.initState();
 
-    _initPrefs();
-  }
-
-  Future<void> _initPrefs() async {
-    _prefs = await SharedPreferences.getInstance();
-    setState(() => searchEngines = _prefs
-            .getStringList("search-engines")
-            ?.map((e) => SearchEngine.fromJson(json.decode(e)))
-            .toList() ??
-        []);
+    service = GetIt.I.get<PanelService>();
+    panel = widget.panel;
   }
 
   @override
   Widget build(BuildContext context) {
     var _controller = TextEditingController();
     void submit() {
-      if (_controller.text.isNotEmpty)
-        launch(sprintf(widget.panel.searchEngine.queryUrl,
-            [Uri.encodeQueryComponent(_controller.text)]));
+      if (_controller.text.isNotEmpty) {
+        launch(sprintf(
+            widget.panel.searchEngine.queryUrl, [Uri.encodeQueryComponent(_controller.text)]));
+        _controller.text = "";
+      }
     }
 
     return Align(
@@ -96,20 +94,19 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               Expanded(
                   child: TextField(
                       decoration: InputDecoration(
-                          labelText:
-                              "Search with ${widget.panel.searchEngine.name}"),
+                          border: OutlineInputBorder(),
+                          labelText: "Search with ${widget.panel.searchEngine.name}"),
                       controller: _controller,
                       onSubmitted: (value) => submit())),
-              IconButton(
-                  icon: Icon(PhosphorIcons.magnifyingGlassLight),
-                  onPressed: submit),
+              IconButton(icon: Icon(PhosphorIcons.magnifyingGlassLight), onPressed: submit),
               PopupMenuButton<SearchEngine>(
-                  onSelected: (value) =>
-                      setState(() => widget.panel.searchEngine = value),
-                  itemBuilder: (context) => [
-                        ...searchEngines.map(
-                            (e) => PopupMenuItem(child: Text(e.name), value: e))
-                      ])
+                  onSelected: (value) => setState(() {
+                        var oldPanel = panel;
+                        panel = widget.panel.copyWith(searchEngine: value);
+                        service.updatePanel(oldPanel, panel);
+                      }),
+                  itemBuilder: (context) =>
+                      [...searchEngines.map((e) => PopupMenuItem(child: Text(e.name), value: e))])
             ])));
   }
 }

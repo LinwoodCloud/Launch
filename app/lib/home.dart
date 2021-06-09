@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:linwood_launcher_app/app/entry.dart';
 import 'package:linwood_launcher_app/app/list.dart';
+import 'package:linwood_launcher_app/panels/layout.dart';
 import 'package:linwood_launcher_app/panels/search_bar.dart';
 import 'package:linwood_launcher_app/settings/personalization.dart';
 import 'package:linwood_launcher_app/settings/search_engines.dart';
@@ -19,7 +20,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(children: [
-      SearchBarPanel(SearchEngine.defaultEngines[0]).buildWidget(context),
+      SearchBarPanel(searchEngine: SearchEngine.defaultEngines[0])
+          .buildWidget(PanelLayout(), context),
       AppList(title: "Opened apps"),
       AppList(title: "All apps", apps: [
         WebEntry("Search", url: "https://example.com"),
@@ -82,8 +84,6 @@ class _HomePageState extends State<HomePage> {
             onClick: () => Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => SearchEnginesSettingsPage()))),
         SystemEntry("Apps", widget: Icon(PhosphorIcons.appWindowLight, size: 42), onClick: () {}),
-        SystemEntry("Personalization",
-            widget: Icon(PhosphorIcons.fadersLight, size: 42), onClick: () {}),
         SystemEntry("Updates",
             widget: Icon(PhosphorIcons.arrowCounterClockwiseLight, size: 42), onClick: () {}),
         SystemEntry("Wifi", widget: Icon(PhosphorIcons.wifiHighLight, size: 42), onClick: () {}),
