@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:linwood_launcher_app/panels/layout.dart';
@@ -8,27 +9,69 @@ import 'panel.dart';
 
 class PanelService {
   SharedPreferences prefs;
-  PanelLayout panelLayout = PanelLayout();
+  PanelLayout get panelLayout =>
+      PanelLayout.fromJson(json.decode(prefs.getString("layout") ?? "{}") as Map<String, dynamic>);
+  set panelLayout(PanelLayout value) {
+    prefs.setString("layout", json.encode(value.toJson()));
+    _panelController.add(value);
+  }
 
   List<SearchEngine> get searchEngines => (prefs.getStringList("search-engines") ?? [])
       .map((e) => SearchEngine.fromJson(json.decode(e) as Map<String, dynamic>))
       .toList();
   set searchEngines(List<SearchEngine> value) =>
       prefs.setStringList("search-engines", value.map((e) => json.encode(e.toJson())).toList());
+  final StreamController<PanelLayout> _panelController = StreamController.broadcast();
 
-  PanelService(this.prefs) {
-    loadPrefs();
-  }
-  void loadPrefs() {
-    panelLayout = PanelLayout.fromJson(
-        json.decode(prefs.getString("panel-layout") ?? "{}") as Map<String, dynamic>);
+  Stream<PanelLayout> get panelChanged => _panelController.stream;
+
+  PanelService(this.prefs);
+
+  void updatePanel(int index, Panel panel) {
+    var panels = List<Panel>.from(panelLayout.panels);
+    panels[index] = panel;
+    panelLayout = panelLayout.copyWith(panels: panels);
   }
 
-  void updatePanel(Panel oldPanel, Panel newPanel) {
-    int index = panelLayout.panels.indexOf(oldPanel);
-    if (index >= 0) {
-      var panels = List<Panel>.from(panelLayout.panels);
-      panels[index] = newPanel;
+  void addPanel(Panel panel) {
+    var panels = List<Panel>.from(panelLayout.panels);
+    panels.add(panel);
+    panelLayout = panelLayout.copyWith(panels: panels);
+  }
+
+  void removePanel(int index) {
+    var panels = List<Panel>.from(panelLayout.panels);
+    print(panels.removeAt(index));
+    panelLayout = panelLayout.copyWith(panels: panels);
+  }
+
+  void toFirst(int index) {
+    var panels = List<Panel>.from(panelLayout.panels);
+    var panel = panels.removeAt(index);
+    print(panel);
+    panels.insert(0, panel);
+    panelLayout = panelLayout.copyWith(panels: panels);
+  }
+
+  void toLast(int index) {
+    var panels = List<Panel>.from(panelLayout.panels);
+    var panel = panels.removeAt(index);
+    panels.add(panel);
+    panelLayout = panelLayout.copyWith(panels: panels);
+  }
+
+  void toPrevious(int index) {
+    var panels = List<Panel>.from(panelLayout.panels);
+    var panel = panels.removeAt(index);
+    panels.insert(index - 1, panel);
+    panelLayout = panelLayout.copyWith(panels: panels);
+  }
+
+  void toNext(int index) {
+    var panels = List<Panel>.from(panelLayout.panels);
+    var panel = panels.removeAt(index);
+    if (index < panels.length) {
+      panels.insert(index + 1, panel);
       panelLayout = panelLayout.copyWith(panels: panels);
     }
   }

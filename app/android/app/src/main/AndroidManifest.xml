@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.linwood_launcher_app">
+    package="com.github.linwoodcloud.linwood_launcher_app">
    <application
         android:label="linwood_launcher_app"
         android:icon="@mipmap/ic_launcher">

@@ -44,17 +44,17 @@ class SearchBarPanel extends Panel {
   Map<String, dynamic> toJson() => {"search-engine": searchEngine.toJson(), "type": "search-bar"};
 
   @override
-  Widget buildWidget(PanelLayout panelLayout, BuildContext context) =>
-      SearchBarWidget(panelLayout: panelLayout, panel: this);
+  Widget buildWidget(PanelLayout panelLayout, int index, BuildContext context) =>
+      SearchBarWidget(panelLayout: panelLayout, index: index);
 
   SearchBarPanel copyWith({SearchEngine? searchEngine}) =>
       SearchBarPanel(searchEngine: searchEngine ?? this.searchEngine);
 }
 
 class SearchBarWidget extends StatefulWidget {
-  final SearchBarPanel panel;
+  final int index;
   final PanelLayout panelLayout;
-  const SearchBarWidget({Key? key, required this.panel, required this.panelLayout})
+  const SearchBarWidget({Key? key, required this.index, required this.panelLayout})
       : super(key: key);
 
   @override
@@ -62,7 +62,6 @@ class SearchBarWidget extends StatefulWidget {
 }
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
-  List<SearchEngine> searchEngines = [];
   late PanelService service;
   late SearchBarPanel panel;
 
@@ -71,16 +70,24 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     super.initState();
 
     service = GetIt.I.get<PanelService>();
-    panel = widget.panel;
+    panel = service.panelLayout.panels[widget.index] as SearchBarPanel;
+  }
+
+  @override
+  void didUpdateWidget(SearchBarWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    setState(() {
+      panel = service.panelLayout.panels[widget.index] as SearchBarPanel;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     var _controller = TextEditingController();
+    var searchEngines = service.searchEngines;
     void submit() {
       if (_controller.text.isNotEmpty) {
-        launch(sprintf(
-            widget.panel.searchEngine.queryUrl, [Uri.encodeQueryComponent(_controller.text)]));
+        launch(sprintf(panel.searchEngine.queryUrl, [Uri.encodeQueryComponent(_controller.text)]));
         _controller.text = "";
       }
     }
@@ -95,18 +102,25 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                   child: TextField(
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: "Search with ${widget.panel.searchEngine.name}"),
+                          labelText: "Search with ${panel.searchEngine.name}"),
                       controller: _controller,
                       onSubmitted: (value) => submit())),
               IconButton(icon: Icon(PhosphorIcons.magnifyingGlassLight), onPressed: submit),
               PopupMenuButton<SearchEngine>(
                   onSelected: (value) => setState(() {
-                        var oldPanel = panel;
-                        panel = widget.panel.copyWith(searchEngine: value);
-                        service.updatePanel(oldPanel, panel);
+                        var oldPanel = service.panelLayout.panels[widget.index];
+                        panel = panel.copyWith(searchEngine: value);
+                        service.updatePanel(widget.index, panel);
                       }),
-                  itemBuilder: (context) =>
-                      [...searchEngines.map((e) => PopupMenuItem(child: Text(e.name), value: e))])
+                  itemBuilder: (context) => searchEngines
+                      .map((e) => PopupMenuItem(child: Text(e.name), value: e))
+                      .toList()),
+              PopupMenuButton<PanelOptions>(
+                  child: Icon(PhosphorIcons.pencilLight),
+                  onSelected: (value) => value.onTap(widget.index),
+                  itemBuilder: (context) => PanelOptions.values
+                      .map((e) => PopupMenuItem(child: Text(e.name), value: e))
+                      .toList())
             ])));
   }
 }

@@ -8,5 +8,5 @@ abstract class Panel {
   Panel.fromJson(Map<String, dynamic> json);
   Map<String, dynamic> toJson();
 
-  Widget buildWidget(PanelLayout panelLayout, BuildContext context);
+  Widget buildWidget(PanelLayout panelLayout, int index, BuildContext context);
 }
