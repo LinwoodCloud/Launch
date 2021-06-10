@@ -11,6 +11,8 @@ abstract class AppEntry {
   Widget? buildWidget(BuildContext context);
 
   AppEntry(this.name, {this.description = ""});
+
+  Map<String, dynamic> toJson();
 }
 
 class WebEntry extends AppEntry {
@@ -25,6 +27,10 @@ class WebEntry extends AppEntry {
 
   @override
   void onTap() => launch(url);
+
+  @override
+  Map<String, dynamic> toJson() =>
+      {"type": "web-entry", "name": name, "description": description, "url": url};
 }
 
 class CommandEntry extends AppEntry {
@@ -38,6 +44,10 @@ class CommandEntry extends AppEntry {
 
   @override
   Widget? buildWidget(BuildContext context) => Icon(PhosphorIcons.terminalLight);
+
+  @override
+  Map<String, dynamic> toJson() =>
+      {"type": "system-entry", "name": name, "description": description, "command": command};
 }
 
 class SystemEntry extends AppEntry {
@@ -51,4 +61,8 @@ class SystemEntry extends AppEntry {
 
   @override
   void onTap() => onClick();
+
+  @override
+  Map<String, dynamic> toJson() =>
+      {"type": "system-entry", "name": name, "description": description};
 }
