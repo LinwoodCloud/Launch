@@ -106,21 +106,23 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                       controller: _controller,
                       onSubmitted: (value) => submit())),
               IconButton(icon: Icon(PhosphorIcons.magnifyingGlassLight), onPressed: submit),
-              PopupMenuButton<SearchEngine>(
-                  onSelected: (value) => setState(() {
-                        var oldPanel = service.panelLayout.panels[widget.index];
-                        panel = panel.copyWith(searchEngine: value);
-                        service.updatePanel(widget.index, panel);
-                      }),
-                  itemBuilder: (context) => searchEngines
-                      .map((e) => PopupMenuItem(child: Text(e.name), value: e))
-                      .toList()),
-              PopupMenuButton<PanelOptions>(
-                  child: Icon(PhosphorIcons.pencilLight),
-                  onSelected: (value) => value.onTap(widget.index),
-                  itemBuilder: (context) => PanelOptions.values
-                      .map((e) => PopupMenuItem(child: Text(e.name), value: e))
-                      .toList())
+              PopupMenuButton<VoidCallback>(
+                  onSelected: (value) => value(),
+                  itemBuilder: (context) => [
+                        ...searchEngines
+                            .map((e) => PopupMenuItem(
+                                child: Text(e.name),
+                                value: () => setState(() {
+                                      panel = panel.copyWith(searchEngine: e);
+                                      service.updatePanel(widget.index, panel);
+                                    })))
+                            .toList(),
+                        PopupMenuDivider(),
+                        ...PanelOptions.values
+                            .map((e) => PopupMenuItem(
+                                child: Text(e.name), value: () => e.onTap(widget.index)))
+                            .toList()
+                      ])
             ])));
   }
 }
