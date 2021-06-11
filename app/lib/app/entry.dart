@@ -11,14 +11,20 @@ abstract class AppEntry {
   Widget? buildWidget(BuildContext context);
 
   AppEntry(this.name, {this.description = ""});
+  AppEntry.fromJson(Map<String, dynamic> json)
+      : name = json['name'] as String,
+        description = json['description'] as String;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => {"name": name, "description": description};
 }
 
-class WebEntry extends AppEntry {
+class UrlEntry extends AppEntry {
   final String url;
-  WebEntry(String name, {String description = "", required this.url})
+  UrlEntry(String name, {String description = "", required this.url})
       : super(name, description: description);
+  UrlEntry.fromJson(Map<String, dynamic> json)
+      : url = json['url'] as String,
+        super.fromJson(json);
 
   @override
   Widget? buildWidget(BuildContext context) {
@@ -29,8 +35,10 @@ class WebEntry extends AppEntry {
   void onTap() => launch(url);
 
   @override
-  Map<String, dynamic> toJson() =>
-      {"type": "web-entry", "name": name, "description": description, "url": url};
+  Map<String, dynamic> toJson() => super.toJson()..addAll({"type": "url-entry", "url": url});
+
+  UrlEntry copyWith({String? name, String? description, String? url}) => UrlEntry(name ?? this.name,
+      url: url ?? this.url, description: description ?? this.description);
 }
 
 class CommandEntry extends AppEntry {
@@ -46,8 +54,7 @@ class CommandEntry extends AppEntry {
   Widget? buildWidget(BuildContext context) => Icon(PhosphorIcons.terminalLight);
 
   @override
-  Map<String, dynamic> toJson() =>
-      {"type": "system-entry", "name": name, "description": description, "command": command};
+  Map<String, dynamic> toJson() => {"type": "command-entry", "command": command};
 }
 
 class SystemEntry extends AppEntry {
@@ -63,6 +70,5 @@ class SystemEntry extends AppEntry {
   void onTap() => onClick();
 
   @override
-  Map<String, dynamic> toJson() =>
-      {"type": "system-entry", "name": name, "description": description};
+  Map<String, dynamic> toJson() => super.toJson()..addAll({"type": "system-entry"});
 }

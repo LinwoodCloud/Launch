@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:linwood_launcher_app/app/entry.dart';
 import 'package:linwood_launcher_app/app/list.dart';
+import 'package:linwood_launcher_app/panels/app_list.dart';
 import 'package:linwood_launcher_app/panels/layout.dart';
 import 'package:linwood_launcher_app/panels/search_bar.dart';
 import 'package:linwood_launcher_app/panels/service.dart';
@@ -70,12 +71,18 @@ class _HomePageState extends State<HomePage> {
                                         Navigator.of(context).pop();
                                         setState(() => service.addPanel(EmptyPanel()));
                                       }),
-                                  ExpansionTile(title: Text("App List"), children: [
+                                  ListTile(
+                                      title: Text("App list"),
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                        setState(() => service.addPanel(AppListPanel()));
+                                      }),
+                                  /* ExpansionTile(title: Text("App List"), children: [
                                     ListTile(onTap: () {}, title: Text("All apps")),
                                     ListTile(onTap: () {}, title: Text("Recently apps")),
                                     ListTile(onTap: () {}, title: Text("Featured apps")),
                                     ListTile(onTap: () {}, title: Text("Custom apps")),
-                                  ]),
+                                  ]), */
                                 ],
                               ),
                             ),
@@ -107,16 +114,17 @@ class _HomePageState extends State<HomePage> {
                   widget: Icon(PhosphorIcons.magnifyingGlassLight),
                   onClick: () => Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) => SearchEnginesSettingsPage()))),
-              SystemEntry("Apps",
+              /* SystemEntry("Apps",
                   widget: Icon(PhosphorIcons.appWindowLight, size: 42), onClick: () {}),
               SystemEntry("Updates",
                   widget: Icon(PhosphorIcons.arrowCounterClockwiseLight, size: 42), onClick: () {}),
               SystemEntry("Wifi",
                   widget: Icon(PhosphorIcons.wifiHighLight, size: 42), onClick: () {}),
               SystemEntry("Bluetooth",
-                  widget: Icon(PhosphorIcons.bluetoothLight, size: 42), onClick: () {}),
+                  widget: Icon(PhosphorIcons.bluetoothLight, size: 42), onClick: () {}), */
               SystemEntry("Information",
-                  widget: Icon(PhosphorIcons.infoLight, size: 42), onClick: () {})
+                  widget: Icon(PhosphorIcons.infoLight, size: 42),
+                  onClick: () => showAboutDialog(context: context))
             ])
           ]);
         },

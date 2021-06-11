@@ -3,8 +3,9 @@ import 'package:linwood_launcher_app/app/entry.dart';
 
 class AppTile extends StatelessWidget {
   final AppEntry entry;
+  final GestureLongPressCallback? onLongPress;
 
-  const AppTile(this.entry, {Key? key}) : super(key: key);
+  const AppTile(this.entry, {Key? key, this.onLongPress}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +13,7 @@ class AppTile extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: InkWell(
         onTap: entry.onTap,
+        onLongPress: onLongPress,
         child: Container(
             height: 150,
             width: 150,

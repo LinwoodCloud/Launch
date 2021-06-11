@@ -5,6 +5,8 @@ import 'package:linwood_launcher_app/panels/panel.dart';
 import 'package:linwood_launcher_app/panels/search_bar.dart';
 import 'package:linwood_launcher_app/panels/service.dart';
 
+import 'app_list.dart';
+
 enum PanelOptions { first, previous, next, last, remove }
 
 extension PanelOptionsExtension on PanelOptions {
@@ -54,6 +56,8 @@ class PanelLayout {
           switch (e['type']) {
             case "search-bar":
               return SearchBarPanel.fromJson(e);
+            case "app-list":
+              return AppListPanel.fromJson(e);
             case "empty":
             default:
               return EmptyPanel.fromJson(e);
