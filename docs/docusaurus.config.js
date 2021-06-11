@@ -1,19 +1,19 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
-  url: 'https://your-docusaurus-test-site.com',
+  title: 'Linwood Launcher',
+  tagline: 'Open source start page',
+  url: 'https://docs.launch.linwood.tk',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'LinwoodCloud', // Usually your GitHub org/user name.
+  projectName: 'Launcher', // Usually your repo name.
   themeConfig: {
     navbar: {
-      title: 'My Site',
+      title: 'Linwood Launcher',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Linwood Launcher',
         src: 'img/logo.svg',
       },
       items: [
@@ -21,9 +21,14 @@ module.exports = {
           type: 'doc',
           docId: 'intro',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Docs',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
+        {
+          to: 'downloads',
+          position: 'left',
+          label: 'Downloads',
+        },
+        {href: 'https://linwood.tk/blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
@@ -35,44 +40,44 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Tutorial',
-              to: '/docs/intro',
-            },
-          ],
-        },
-        {
           title: 'Community',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
               label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              href: 'https://discord.linwood.tk',
             },
             {
               label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
+              href: 'https://twitter.com/LinwoodCloud',
             },
           ],
         },
         {
-          title: 'More',
+          title: 'Source code',
           items: [
             {
-              label: 'Blog',
-              to: '/blog',
+              label: 'App',
+              href: 'https://github.com/LinwoodCloud/Launcher/tree/develop/app',
             },
             {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
-            },
+              label: 'Docs',
+              href: 'https://github.com/LinwoodCloud/Launcher/tree/develop/docs',
+            }
           ],
         },
+        {
+          title: 'Legal',
+          items: [
+            {
+              label: 'Imprint',
+              to: 'https://codedoctor.tk/impress',
+            },
+            {
+              label: 'Privacy Policy',
+              href: 'https://codedoctor.tk/privacy',
+            },
+          ],
+        }
       ],
       copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
     },
