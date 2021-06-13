@@ -13,7 +13,6 @@ void main() async {
   // load the shared preferences from disk before the app is started
   final prefs = await SharedPreferences.getInstance();
   GetIt.I.registerSingleton(PanelService(prefs));
-
   if (!prefs.containsKey("search-engines")) {
     prefs.setStringList(
         "search-engines", SearchEngine.defaultEngines.map((e) => json.encode(e.toJson())).toList());

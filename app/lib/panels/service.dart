@@ -51,14 +51,12 @@ class PanelService {
 
   void removePanel(int index) {
     var panels = List<Panel>.from(panelLayout.panels);
-    print(panels.removeAt(index));
     panelLayout = panelLayout.copyWith(panels: panels);
   }
 
   void toFirst(int index) {
     var panels = List<Panel>.from(panelLayout.panels);
     var panel = panels.removeAt(index);
-    print(panel);
     panels.insert(0, panel);
     panelLayout = panelLayout.copyWith(panels: panels);
   }

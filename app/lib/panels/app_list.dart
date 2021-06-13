@@ -232,13 +232,14 @@ class _AppListPanelWidgetState extends State<AppListPanelWidget> {
                                                       onPressed: () => Navigator.of(context).pop(),
                                                       child: Text("CANCEL")),
                                                   TextButton(
-                                                      onPressed: () {
+                                                      onPressed: () async {
                                                         Navigator.of(context).pop();
+                                                        var entry = await UrlEntry.create(
+                                                            Uri.parse(_controller.text));
                                                         setState(() {
                                                           panel = panel.copyWith(
                                                               apps: List<AppEntry>.from(panel.apps)
-                                                                ..add(UrlEntry(_controller.text,
-                                                                    url: _controller.text)));
+                                                                ..add(entry));
                                                           service.updatePanel(widget.index, panel);
                                                         });
                                                       },
