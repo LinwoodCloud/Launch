@@ -209,46 +209,52 @@ class _AppListPanelWidgetState extends State<AppListPanelWidget> {
                                               ));
                                     }))
                                 .toList()))),
-                PopupMenuButton<VoidCallback>(
-                    onSelected: (value) => value(),
-                    itemBuilder: (context) => [
-                          PopupMenuItem(
-                              child: Text("Add"),
-                              value: () => showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    var _controller = TextEditingController();
-                                    return AlertDialog(
-                                        title: Text("Set url"),
-                                        content: TextField(
-                                            controller: _controller,
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                                labelText: "URL", hintText: "https://example.com")),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: () => Navigator.of(context).pop(),
-                                              child: Text("CANCEL")),
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                                setState(() {
-                                                  panel = panel.copyWith(
-                                                      apps: List<AppEntry>.from(panel.apps)
-                                                        ..add(UrlEntry(_controller.text,
-                                                            url: _controller.text)));
-                                                  service.updatePanel(widget.index, panel);
-                                                });
-                                              },
-                                              child: Text("OK"))
-                                        ]);
-                                  })),
-                          PopupMenuDivider(),
-                          ...PanelOptions.values
-                              .map((e) => PopupMenuItem(
-                                  child: Text(e.name), value: () => e.onTap(widget.index)))
-                              .toList()
-                        ])
+                StreamBuilder<bool>(
+                    stream: service.editChanged,
+                    initialData: service.editing,
+                    builder: (context, snapshot) => !(snapshot.data!)
+                        ? Container()
+                        : PopupMenuButton<VoidCallback>(
+                            onSelected: (value) => value(),
+                            itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                      child: Text("Add"),
+                                      value: () => showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            var _controller = TextEditingController();
+                                            return AlertDialog(
+                                                title: Text("Set url"),
+                                                content: TextField(
+                                                    controller: _controller,
+                                                    keyboardType: TextInputType.number,
+                                                    decoration: InputDecoration(
+                                                        labelText: "URL",
+                                                        hintText: "https://example.com")),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () => Navigator.of(context).pop(),
+                                                      child: Text("CANCEL")),
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context).pop();
+                                                        setState(() {
+                                                          panel = panel.copyWith(
+                                                              apps: List<AppEntry>.from(panel.apps)
+                                                                ..add(UrlEntry(_controller.text,
+                                                                    url: _controller.text)));
+                                                          service.updatePanel(widget.index, panel);
+                                                        });
+                                                      },
+                                                      child: Text("OK"))
+                                                ]);
+                                          })),
+                                  PopupMenuDivider(),
+                                  ...PanelOptions.values
+                                      .map((e) => PopupMenuItem(
+                                          child: Text(e.name), value: () => e.onTap(widget.index)))
+                                      .toList()
+                                ]))
               ]))),
     );
   }

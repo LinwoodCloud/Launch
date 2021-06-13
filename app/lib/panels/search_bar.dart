@@ -106,23 +106,28 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                       controller: _controller,
                       onSubmitted: (value) => submit())),
               IconButton(icon: Icon(PhosphorIcons.magnifyingGlassLight), onPressed: submit),
-              PopupMenuButton<VoidCallback>(
-                  onSelected: (value) => value(),
-                  itemBuilder: (context) => [
-                        ...searchEngines
-                            .map((e) => PopupMenuItem(
-                                child: Text(e.name),
-                                value: () => setState(() {
-                                      panel = panel.copyWith(searchEngine: e);
-                                      service.updatePanel(widget.index, panel);
-                                    })))
-                            .toList(),
-                        PopupMenuDivider(),
-                        ...PanelOptions.values
-                            .map((e) => PopupMenuItem(
-                                child: Text(e.name), value: () => e.onTap(widget.index)))
-                            .toList()
-                      ])
+              StreamBuilder<bool>(
+                  stream: service.editChanged,
+                  initialData: service.editing,
+                  builder: (context, snapshot) => !(snapshot.data!)
+                      ? Container()
+                      : PopupMenuButton<VoidCallback>(
+                          onSelected: (value) => value(),
+                          itemBuilder: (context) => [
+                                ...searchEngines
+                                    .map((e) => PopupMenuItem(
+                                        child: Text(e.name),
+                                        value: () => setState(() {
+                                              panel = panel.copyWith(searchEngine: e);
+                                              service.updatePanel(widget.index, panel);
+                                            })))
+                                    .toList(),
+                                PopupMenuDivider(),
+                                ...PanelOptions.values
+                                    .map((e) => PopupMenuItem(
+                                        child: Text(e.name), value: () => e.onTap(widget.index)))
+                                    .toList()
+                              ]))
             ])));
   }
 }

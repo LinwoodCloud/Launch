@@ -24,6 +24,16 @@ class PanelService {
   final StreamController<PanelLayout> _panelController = StreamController.broadcast();
 
   Stream<PanelLayout> get panelChanged => _panelController.stream;
+  bool _editing = false;
+  bool get editing => _editing;
+  set editing(bool value) {
+    _editing = value;
+    _editingController.add(_editing);
+  }
+
+  final StreamController<bool> _editingController = StreamController.broadcast();
+
+  Stream<bool> get editChanged => _editingController.stream;
 
   PanelService(this.prefs);
 
