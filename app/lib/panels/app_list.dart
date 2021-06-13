@@ -103,8 +103,6 @@ class _AppListPanelWidgetState extends State<AppListPanelWidget> {
                                                                       title: Text("Set name"),
                                                                       content: TextField(
                                                                           controller: _controller,
-                                                                          keyboardType:
-                                                                              TextInputType.number,
                                                                           decoration: InputDecoration(
                                                                               labelText: "Name",
                                                                               hintText:
@@ -153,8 +151,6 @@ class _AppListPanelWidgetState extends State<AppListPanelWidget> {
                                                                       title: Text("Set url"),
                                                                       content: TextField(
                                                                           controller: _controller,
-                                                                          keyboardType:
-                                                                              TextInputType.number,
                                                                           decoration: InputDecoration(
                                                                               labelText: "URL",
                                                                               hintText:
@@ -227,7 +223,7 @@ class _AppListPanelWidgetState extends State<AppListPanelWidget> {
                                                 title: Text("Set url"),
                                                 content: TextField(
                                                     controller: _controller,
-                                                    keyboardType: TextInputType.number,
+                                                    keyboardType: TextInputType.url,
                                                     decoration: InputDecoration(
                                                         labelText: "URL",
                                                         hintText: "https://example.com")),
