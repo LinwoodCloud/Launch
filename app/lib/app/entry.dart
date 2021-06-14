@@ -55,7 +55,6 @@ class UrlEntry extends AppEntry {
           .where((element) => !(element.attributes['href']?.endsWith(".svg") ?? true))
           .toList()
             ..sort((a, b) => (getSize(a) - 64).abs().compareTo((getSize(b) - 64).abs())));
-      print(icons.map((e) => getSize(e)).toList());
       var iconTag = icons.firstOrNull;
       if (iconTag != null) {
         var iconUrl = (iconTag.attributes['href'] ?? "").trim();
