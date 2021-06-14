@@ -84,6 +84,22 @@ class UrlEntry extends AppEntry {
     } catch (e) {
       print(e);
     }
+    if (icon.isEmpty) {
+      var imageUri =
+          Uri(host: uri.host, port: uri.port, scheme: uri.scheme, pathSegments: ["favicon.ico"]);
+      var response = await http.get(imageUri);
+      if (response.statusCode == 200) icon = imageUri.toString();
+    }
+    if (icon.isEmpty) {
+      var imageUri =
+          Uri(host: uri.host, port: uri.port, scheme: uri.scheme, pathSegments: ["favicon.png"]);
+      var response = await http.get(imageUri);
+      if (response.statusCode == 200) icon = imageUri.toString();
+    }
+    if (name.isEmpty) {
+      name = "${uri.host[0]}${uri.host.substring(1)}";
+    }
+
     return UrlEntry(name, url: uri.toString(), description: description, icon: icon);
   }
 
