@@ -34,52 +34,56 @@ class UrlEntry extends AppEntry {
         super.fromJson(json);
 
   static Future<UrlEntry> create(Uri uri) async {
-    var response = await http.get(Uri(host: uri.host, port: uri.port, scheme: uri.scheme));
-    var html = parse(response.body);
-    var headElement = html.getElementsByTagName("head").firstOrNull;
     var icon = "";
     var name = uri.toString();
     var description = "";
-    if (headElement != null) {
-      description = headElement
-              .getElementsByTagName("meta")
-              .firstWhereOrNull((element) => element.attributes["name"] == "description")
-              ?.attributes["content"] ??
-          description;
-      int getSize(dom.Element e) =>
-          int.tryParse((e.attributes['sizes'] ?? "0x0").split("x").firstOrNull ?? "0") ?? 0;
-      var icons = <dom.Element>[];
-      icons.addAll(html
-          .querySelectorAll("link")
-          .where((element) => element.attributes['rel']?.contains("icon") ?? false)
-          .where((element) => !(element.attributes['href']?.endsWith(".svg") ?? true))
-          .toList()
-            ..sort((a, b) => (getSize(a) - 64).abs().compareTo((getSize(b) - 64).abs())));
-      var iconTag = icons.firstOrNull;
-      if (iconTag != null) {
-        var iconUrl = (iconTag.attributes['href'] ?? "").trim();
+    try {
+      var response = await http.read(Uri(host: uri.host, port: uri.port, scheme: uri.scheme));
+      var html = parse(response);
+      var headElement = html.getElementsByTagName("head").firstOrNull;
+      if (headElement != null) {
+        description = headElement
+                .getElementsByTagName("meta")
+                .firstWhereOrNull((element) => element.attributes["name"] == "description")
+                ?.attributes["content"] ??
+            description;
+        int getSize(dom.Element e) =>
+            int.tryParse((e.attributes['sizes'] ?? "0x0").split("x").firstOrNull ?? "0") ?? 0;
+        var icons = <dom.Element>[];
+        icons.addAll(html
+            .querySelectorAll("link")
+            .where((element) => element.attributes['rel']?.contains("icon") ?? false)
+            .where((element) => !(element.attributes['href']?.endsWith(".svg") ?? true))
+            .toList()
+              ..sort((a, b) => (getSize(a) - 64).abs().compareTo((getSize(b) - 64).abs())));
+        var iconTag = icons.firstOrNull;
+        if (iconTag != null) {
+          var iconUrl = (iconTag.attributes['href'] ?? "").trim();
 
-        // Fix scheme relative URLs
-        if (iconUrl.startsWith('//')) {
-          iconUrl = uri.scheme + ':' + iconUrl;
+          // Fix scheme relative URLs
+          if (iconUrl.startsWith('//')) {
+            iconUrl = uri.scheme + ':' + iconUrl;
+          }
+
+          // Fix relative URLs
+          if (iconUrl.startsWith('/')) {
+            iconUrl = uri.scheme + '://' + uri.host + iconUrl;
+          }
+
+          // Fix naked URLs
+          if (!iconUrl.startsWith('http')) {
+            iconUrl = uri.scheme + '://' + uri.host + '/' + iconUrl;
+          }
+
+          // Remove query strings
+          iconUrl = iconUrl.split('?').first;
+          icon = iconUrl;
         }
-
-        // Fix relative URLs
-        if (iconUrl.startsWith('/')) {
-          iconUrl = uri.scheme + '://' + uri.host + iconUrl;
-        }
-
-        // Fix naked URLs
-        if (!iconUrl.startsWith('http')) {
-          iconUrl = uri.scheme + '://' + uri.host + '/' + iconUrl;
-        }
-
-        // Remove query strings
-        iconUrl = iconUrl.split('?').first;
-        icon = iconUrl;
       }
+      name = headElement?.getElementsByTagName("title").firstOrNull?.innerHtml ?? name;
+    } catch (e) {
+      print(e);
     }
-    name = headElement?.getElementsByTagName("title").firstOrNull?.innerHtml ?? name;
     return UrlEntry(name, url: uri.toString(), description: description, icon: icon);
   }
 
