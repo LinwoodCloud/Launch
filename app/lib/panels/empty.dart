@@ -58,45 +58,51 @@ class _EmptyPanelWidgetState extends State<EmptyPanelWidget> {
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
             child: Row(children: [
               Expanded(child: SizedBox(height: panel.height)),
-              PopupMenuButton<VoidCallback>(
-                  onSelected: (value) => value(),
-                  itemBuilder: (context) => [
-                        PopupMenuItem(
-                            child: Text("Height"),
-                            value: () => showDialog(
-                                context: context,
-                                builder: (context) {
-                                  var _controller =
-                                      TextEditingController(text: panel.height.toString());
-                                  return AlertDialog(
-                                      title: Text("Set height"),
-                                      content: TextField(
-                                          controller: _controller,
-                                          keyboardType: TextInputType.number,
-                                          decoration:
-                                              InputDecoration(labelText: "Height", hintText: "50")),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: () => Navigator.of(context).pop(),
-                                            child: Text("CANCEL")),
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              setState(() {
-                                                panel = panel.copyWith(
-                                                    height: double.tryParse(_controller.text));
-                                                service.updatePanel(widget.index, panel);
-                                              });
-                                            },
-                                            child: Text("OK"))
-                                      ]);
-                                })),
-                        PopupMenuDivider(),
-                        ...PanelOptions.values
-                            .map((e) => PopupMenuItem(
-                                child: Text(e.name), value: () => e.onTap(widget.index)))
-                            .toList()
-                      ])
+              StreamBuilder<bool>(
+                  stream: service.editChanged,
+                  initialData: service.editing,
+                  builder: (context, snapshot) => !(snapshot.data!)
+                      ? Container()
+                      : PopupMenuButton<VoidCallback>(
+                          onSelected: (value) => value(),
+                          itemBuilder: (context) => [
+                                PopupMenuItem(
+                                    child: Text("Height"),
+                                    value: () => showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          var _controller =
+                                              TextEditingController(text: panel.height.toString());
+                                          return AlertDialog(
+                                              title: Text("Set height"),
+                                              content: TextField(
+                                                  controller: _controller,
+                                                  keyboardType: TextInputType.number,
+                                                  decoration: InputDecoration(
+                                                      labelText: "Height", hintText: "50")),
+                                              actions: [
+                                                TextButton(
+                                                    onPressed: () => Navigator.of(context).pop(),
+                                                    child: Text("CANCEL")),
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                      setState(() {
+                                                        panel = panel.copyWith(
+                                                            height:
+                                                                double.tryParse(_controller.text));
+                                                        service.updatePanel(widget.index, panel);
+                                                      });
+                                                    },
+                                                    child: Text("OK"))
+                                              ]);
+                                        })),
+                                PopupMenuDivider(),
+                                ...PanelOptions.values
+                                    .map((e) => PopupMenuItem(
+                                        child: Text(e.name), value: () => e.onTap(widget.index)))
+                                    .toList()
+                              ]))
             ])));
   }
 }
