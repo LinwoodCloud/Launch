@@ -11,10 +11,10 @@ title: Downloads
   <button class="button button--outline button--primary">Web</button>
   <ul class="dropdown__menu">
     <li>
-      <a class="dropdown__link" href="https://launch.linwood.tk">
+      <a class="dropdown__link" href="https://launch.linwood.dev">
         Release
       </a>
-      <a class="dropdown__link" href="https://preview.launch.linwood.tk">
+      <a class="dropdown__link" href="https://preview.launch.linwood.dev">
         Preview
       </a>
     </li>
@@ -66,4 +66,4 @@ title: Downloads
 - [Changelog](changelog)
 - [Older releases](https://github.com/LinwoodCloud/Launcher/releases)
 - [Latest release](https://github.com/LinwoodCloud/Launcher/releases/latest)
-- [Support](https://discord.linwood.tk)
+- [Support](https://discord.linwood.dev)

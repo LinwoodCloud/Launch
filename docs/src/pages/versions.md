@@ -7,7 +7,7 @@ currently being supported with security updates.
 
 | Version | Supported |                                                   |
 | ------- | --------- | ------------------------------------------------: |
-| 0.1.x   | ✔️         |  [Documentation](https://docs.launch.linwood.tk/) |
+| 0.1.x   | ✔️         |  [Documentation](https://docs.launch.linwood.dev/) |
 
 ## Reporting a bug
 

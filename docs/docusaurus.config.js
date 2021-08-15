@@ -2,7 +2,7 @@
 module.exports = {
   title: 'Linwood Launcher',
   tagline: 'Open source start page',
-  url: 'https://docs.launch.linwood.tk',
+  url: 'https://docs.launch.linwood.dev',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -28,7 +28,7 @@ module.exports = {
           position: 'left',
           label: 'Downloads',
         },
-        {href: 'https://linwood.tk/blog', label: 'Blog', position: 'left'},
+        {href: 'https://linwood.dev/blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
@@ -44,7 +44,7 @@ module.exports = {
           items: [
             {
               label: 'Discord',
-              href: 'https://discord.linwood.tk',
+              href: 'https://discord.linwood.dev',
             },
             {
               label: 'Twitter',
@@ -70,11 +70,11 @@ module.exports = {
           items: [
             {
               label: 'Imprint',
-              to: 'https://codedoctor.tk/impress',
+              to: 'https://codedoctor.dev/impress',
             },
             {
               label: 'Privacy Policy',
-              href: 'https://codedoctor.tk/privacy',
+              href: 'https://codedoctor.dev/privacy',
             },
           ],
         }
