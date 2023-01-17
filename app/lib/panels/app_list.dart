@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:linwood_launcher_app/app/entry.dart';
-import 'package:linwood_launcher_app/app/tile.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+import '../app/entry.dart';
+import '../app/tile.dart';
 import 'layout.dart';
 import 'panel.dart';
 import 'service.dart';

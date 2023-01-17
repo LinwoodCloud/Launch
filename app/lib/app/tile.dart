@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:linwood_launcher_app/app/entry.dart';
+
+import 'entry.dart';
 
 class AppTile extends StatelessWidget {
   final AppEntry entry;

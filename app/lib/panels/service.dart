@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:linwood_launcher_app/panels/layout.dart';
-import 'package:linwood_launcher_app/panels/search_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'layout.dart';
 import 'panel.dart';
+import 'search_bar.dart';
 
 class PanelService {
   SharedPreferences prefs;

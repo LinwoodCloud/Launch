@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:linwood_launcher_app/app/entry.dart';
-import 'package:linwood_launcher_app/app/list.dart';
-import 'package:linwood_launcher_app/panels/app_list.dart';
-import 'package:linwood_launcher_app/panels/layout.dart';
-import 'package:linwood_launcher_app/panels/search_bar.dart';
-import 'package:linwood_launcher_app/panels/service.dart';
-import 'package:linwood_launcher_app/settings/personalization.dart';
-import 'package:linwood_launcher_app/settings/search_engines.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'app/entry.dart';
+import 'app/list.dart';
+import 'panels/app_list.dart';
 import 'panels/empty.dart';
+import 'panels/layout.dart';
+import 'panels/search_bar.dart';
+import 'panels/service.dart';
+import 'settings/personalization.dart';
+import 'settings/search_engines.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:linwood_launcher_app/panels/panel.dart';
 
 import 'layout.dart';
+import 'panel.dart';
 import 'service.dart';
 
 class EmptyPanel extends Panel {

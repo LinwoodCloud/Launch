@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:linwood_launcher_app/panels/search_bar.dart';
-import 'package:linwood_launcher_app/panels/service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
+import 'panels/search_bar.dart';
+import 'panels/service.dart';
 import 'theme.dart';
 
 void main() async {

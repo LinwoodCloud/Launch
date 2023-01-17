@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:linwood_launcher_app/panels/search_bar.dart';
-import 'package:linwood_launcher_app/panels/service.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+
+import '../panels/search_bar.dart';
+import '../panels/service.dart';
 
 class SearchEnginesSettingsPage extends StatefulWidget {
   const SearchEnginesSettingsPage({super.key});

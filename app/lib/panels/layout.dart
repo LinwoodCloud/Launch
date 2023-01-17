@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
-import 'package:linwood_launcher_app/panels/empty.dart';
-import 'package:linwood_launcher_app/panels/panel.dart';
-import 'package:linwood_launcher_app/panels/search_bar.dart';
-import 'package:linwood_launcher_app/panels/service.dart';
 
 import 'app_list.dart';
+import 'empty.dart';
+import 'panel.dart';
+import 'search_bar.dart';
+import 'service.dart';
 
 enum PanelOptions { first, previous, next, last, remove }
 

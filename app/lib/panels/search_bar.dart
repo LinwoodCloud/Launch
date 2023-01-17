@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:linwood_launcher_app/panels/panel.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'layout.dart';
+import 'panel.dart';
 import 'service.dart';
 
 class SearchEngine {

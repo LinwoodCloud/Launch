@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:linwood_launcher_app/theme.dart';
+
+import '../theme.dart';
 
 class PersonalizationSettingsPage extends StatefulWidget {
   const PersonalizationSettingsPage({super.key});
