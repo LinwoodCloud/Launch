@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import fs from 'fs';
 
 /*
-// Fetch version value fromy yaml file https://raw.githubusercontent.com/LinwoodCloud/Butterfly/nightly/app/pubspec.yaml
+// Fetch version value fromy yaml file https://raw.githubusercontent.com/LinwoodCloud/Launch/nightly/app/pubspec.yaml
 const nightlyUrl = 'https://raw.githubusercontent.com/LinwoodCloud/Launch/nightly/app/pubspec.yaml';
 const nightlyVersion = await fetch(nightlyUrl).then(res => res.text()).then(text => {
     const regex = /^version:\s(.+)\+(.+)$/gm;

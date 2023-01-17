@@ -1,0 +1,9 @@
+Package: linwood-launch
+Version: 2.0.0-alpha.0
+Section: base
+Priority: optional
+Homepage: https://github.com/LinwoodCloud/launch
+Architecture: amd64
+Maintainer: LinwoodCloud <contact@linwood.dev>
+Description: Linwood Launch
+  Opensource app launcher

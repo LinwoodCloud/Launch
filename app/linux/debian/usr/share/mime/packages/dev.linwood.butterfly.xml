@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-launch">
+    <sub-class-of type="application/json"/>
+    <icon name="dev.linwood.launch"/>
+    <comment>Launch files</comment>
+    <glob pattern="*.bfly"/>
+  </mime-type>
+</mime-info>

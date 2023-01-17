@@ -5,7 +5,7 @@ slug: "/nightly"
 
 :::warning
 
-Do not use the nightly version of Butterfly for production.
+Do not use the nightly version of Launch for production.
 
 :::
 
