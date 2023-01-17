@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:linwood_launcher_app/theme.dart';
 
 class PersonalizationSettingsPage extends StatefulWidget {
-  const PersonalizationSettingsPage({Key? key}) : super(key: key);
+  const PersonalizationSettingsPage({super.key});
 
   @override
   _PersonalizationSettingsPageState createState() =>
@@ -27,7 +27,8 @@ class _PersonalizationSettingsPageState
   }
 
   void _openThemeModal() async {
-    var currentTheme = ThemeController.of(context)?.currentTheme;
+    final themeController = ThemeController.of(context);
+    var currentTheme = themeController?.currentTheme;
     var themeMode = await showModalBottomSheet<ThemeMode>(
         context: context,
         builder: (context) {
@@ -61,7 +62,8 @@ class _PersonalizationSettingsPageState
                 const SizedBox(height: 32),
               ]));
         });
-    if (themeMode != null)
-      ThemeController.of(context)?.currentTheme = themeMode;
+    if (themeMode != null) {
+      themeController?.currentTheme = themeMode;
+    }
   }
 }

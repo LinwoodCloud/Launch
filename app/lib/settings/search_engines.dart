@@ -5,7 +5,7 @@ import 'package:linwood_launcher_app/panels/service.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class SearchEnginesSettingsPage extends StatefulWidget {
-  const SearchEnginesSettingsPage({Key? key}) : super(key: key);
+  const SearchEnginesSettingsPage({super.key});
 
   @override
   _SearchEnginesSettingsPageState createState() =>

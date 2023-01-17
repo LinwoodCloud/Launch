@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PersonalizatiionSettingsPage extends StatelessWidget {
-  const PersonalizatiionSettingsPage({Key? key}) : super(key: key);
+  const PersonalizatiionSettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

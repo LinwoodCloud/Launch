@@ -14,7 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'panels/empty.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -149,8 +149,9 @@ class _HomePageState extends State<HomePage> {
                                       SystemEntry('Code',
                                           widget: const Icon(
                                               PhosphorIcons.codeLight),
-                                          onClick: () => launch(
-                                              'https://github.com/LinwoodCloud/Launcher')),
+                                          onClick: () => launchUrl(Uri.https(
+                                              'github.com',
+                                              'LinwoodCloud/Launcher'))),
                                       SystemEntry('Search Engines',
                                           widget: const Icon(PhosphorIcons
                                               .magnifyingGlassLight),

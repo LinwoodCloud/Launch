@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:collection/collection.dart';
 import 'package:html/parser.dart' show parse;
+import 'package:url_launcher/url_launcher_string.dart';
 
 typedef SystemCallback = void Function();
 
@@ -26,13 +27,11 @@ class UrlEntry extends AppEntry {
   final String url;
   final String icon;
 
-  UrlEntry(String name,
-      {String description = '', required this.url, this.icon = ''})
-      : super(name, description: description);
-  UrlEntry.fromJson(Map<String, dynamic> json)
+  UrlEntry(super.name, {super.description, required this.url, this.icon = ''});
+  UrlEntry.fromJson(super.json)
       : url = json['url'] as String,
         icon = json['icon'] as String? ?? '',
-        super.fromJson(json);
+        super.fromJson();
 
   static Future<UrlEntry> create(Uri uri) async {
     var icon = '';
@@ -93,7 +92,9 @@ class UrlEntry extends AppEntry {
           headElement?.getElementsByTagName('title').firstOrNull?.innerHtml ??
               name;
     } catch (e) {
-      print('Error: $e');
+      if (kDebugMode) {
+        print('Error: $e');
+      }
     }
     if (icon.isEmpty) {
       try {
@@ -105,7 +106,9 @@ class UrlEntry extends AppEntry {
         var response = await http.get(imageUri);
         if (response.statusCode == 200) icon = imageUri.toString();
       } catch (e) {
-        print('Error: $e');
+        if (kDebugMode) {
+          print('Error: $e');
+        }
       }
     }
     if (icon.isEmpty) {
@@ -118,11 +121,13 @@ class UrlEntry extends AppEntry {
         var response = await http.get(imageUri);
         if (response.statusCode == 200) icon = imageUri.toString();
       } catch (e) {
-        print('Error: $e');
+        if (kDebugMode) {
+          print('Error: $e');
+        }
       }
     }
     if (name.isEmpty) {
-      name = "${uri.host[0]}${uri.host.substring(1)}";
+      name = '${uri.host[0]}${uri.host.substring(1)}';
     }
 
     return UrlEntry(name,
@@ -137,7 +142,7 @@ class UrlEntry extends AppEntry {
   }
 
   @override
-  void onTap() => launch(url);
+  void onTap() => launchUrlString(url);
 
   @override
   Map<String, dynamic> toJson() => super.toJson()
@@ -159,11 +164,12 @@ class UrlEntry extends AppEntry {
 
 class CommandEntry extends AppEntry {
   final String command;
-  CommandEntry(String name, {String description = '', required this.command})
-      : super(name, description: description);
+  CommandEntry(super.name, {super.description, required this.command});
   @override
   void onTap() {
-    print(command);
+    if (kDebugMode) {
+      print(command);
+    }
   }
 
   @override
@@ -178,9 +184,8 @@ class CommandEntry extends AppEntry {
 class SystemEntry extends AppEntry {
   final SystemCallback onClick;
   final Widget? widget;
-  SystemEntry(String name,
-      {String description = '', required this.onClick, this.widget})
-      : super(name, description: description);
+  SystemEntry(super.name,
+      {super.description, required this.onClick, this.widget});
 
   @override
   Widget? buildWidget(BuildContext context) => widget;

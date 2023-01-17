@@ -5,7 +5,7 @@ class AppTile extends StatelessWidget {
   final AppEntry entry;
   final GestureLongPressCallback? onLongPress;
 
-  const AppTile(this.entry, {Key? key, this.onLongPress}) : super(key: key);
+  const AppTile(this.entry, {super.key, this.onLongPress});
 
   @override
   Widget build(BuildContext context) {

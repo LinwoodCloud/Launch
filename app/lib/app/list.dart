@@ -12,13 +12,12 @@ class AppList extends StatelessWidget {
   final String description;
 
   AppList(
-      {Key? key,
+      {super.key,
       this.apps = const [],
       this.title = '',
       this.description = '',
       this.trailing,
-      this.leading})
-      : super(key: key);
+      this.leading});
 
   @override
   Widget build(BuildContext context) {

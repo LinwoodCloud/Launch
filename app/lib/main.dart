@@ -30,7 +30,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   final ThemeController? themeController;
 
-  const MyApp({Key? key, this.themeController}) : super(key: key);
+  const MyApp({super.key, this.themeController});
 
   // This widget is the root of your application.
   @override

@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:linwood_launcher_app/panels/panel.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sprintf/sprintf.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import 'layout.dart';
 import 'service.dart';
@@ -39,10 +39,10 @@ class SearchBarPanel extends Panel {
 
   const SearchBarPanel({required this.searchEngine});
 
-  SearchBarPanel.fromJson(Map<String, dynamic> json)
+  SearchBarPanel.fromJson(super.json)
       : searchEngine = SearchEngine.fromJson(
             json['search-engine'] as Map<String, dynamic>),
-        super.fromJson(json);
+        super.fromJson();
 
   @override
   Map<String, dynamic> toJson() =>
@@ -61,8 +61,7 @@ class SearchBarWidget extends StatefulWidget {
   final int index;
   final PanelLayout panelLayout;
   const SearchBarWidget(
-      {Key? key, required this.index, required this.panelLayout})
-      : super(key: key);
+      {super.key, required this.index, required this.panelLayout});
 
   @override
   _SearchBarWidgetState createState() => _SearchBarWidgetState();
@@ -94,7 +93,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     var searchEngines = service.searchEngines;
     void submit() {
       if (controller.text.isNotEmpty) {
-        launch(sprintf(panel.searchEngine.queryUrl,
+        launchUrlString(sprintf(panel.searchEngine.queryUrl,
             [Uri.encodeQueryComponent(controller.text)]));
         controller.text = '';
       }

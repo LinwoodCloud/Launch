@@ -37,8 +37,7 @@ class ThemeController extends ChangeNotifier {
 /// provides the theme controller to any page of your app
 class ThemeControllerProvider extends InheritedWidget {
   const ThemeControllerProvider(
-      {Key? key, required this.controller, required Widget child})
-      : super(key: key, child: child);
+      {super.key, required this.controller, required super.child});
 
   final ThemeController controller;
 

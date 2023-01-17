@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MoveableDialog extends StatefulWidget {
-  const MoveableDialog({Key? key}) : super(key: key);
+  const MoveableDialog({super.key});
 
   @override
   _MoveableDialogState createState() => _MoveableDialogState();

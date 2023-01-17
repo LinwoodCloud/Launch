@@ -27,8 +27,7 @@ class EmptyPanelWidget extends StatefulWidget {
   final int index;
   final PanelLayout panelLayout;
   const EmptyPanelWidget(
-      {Key? key, required this.index, required this.panelLayout})
-      : super(key: key);
+      {super.key, required this.index, required this.panelLayout});
 
   @override
   _EmptyPanelWidgetState createState() => _EmptyPanelWidgetState();

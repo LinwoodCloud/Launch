@@ -37,8 +37,7 @@ class AppListPanelWidget extends StatefulWidget {
   final int index;
   final PanelLayout panelLayout;
   const AppListPanelWidget(
-      {Key? key, required this.index, required this.panelLayout})
-      : super(key: key);
+      {super.key, required this.index, required this.panelLayout});
 
   @override
   _AppListPanelWidgetState createState() => _AppListPanelWidgetState();

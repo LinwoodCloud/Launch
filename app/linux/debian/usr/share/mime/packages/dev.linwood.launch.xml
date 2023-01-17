@@ -4,6 +4,6 @@
     <sub-class-of type="application/json"/>
     <icon name="dev.linwood.launch"/>
     <comment>Launch files</comment>
-    <glob pattern="*.bfly"/>
+    <glob pattern="*.llnch"/>
   </mime-type>
 </mime-info>
