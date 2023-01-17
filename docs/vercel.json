@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/docs/privacypolicy",
+      "destination": "/privacypolicy"
+    }
+  ],
+  "github": {
+      "silent": true
+  }
+}
