@@ -9,19 +9,22 @@ import 'panel.dart';
 
 class PanelService {
   SharedPreferences prefs;
-  PanelLayout get panelLayout =>
-      PanelLayout.fromJson(json.decode(prefs.getString("layout") ?? "{}") as Map<String, dynamic>);
+  PanelLayout get panelLayout => PanelLayout.fromJson(
+      json.decode(prefs.getString('layout') ?? '{}') as Map<String, dynamic>);
   set panelLayout(PanelLayout value) {
-    prefs.setString("layout", json.encode(value.toJson()));
+    prefs.setString('layout', json.encode(value.toJson()));
     _panelController.add(value);
   }
 
-  List<SearchEngine> get searchEngines => (prefs.getStringList("search-engines") ?? [])
+  List<SearchEngine> get searchEngines => (prefs
+              .getStringList('search-engines') ??
+          [])
       .map((e) => SearchEngine.fromJson(json.decode(e) as Map<String, dynamic>))
       .toList();
-  set searchEngines(List<SearchEngine> value) =>
-      prefs.setStringList("search-engines", value.map((e) => json.encode(e.toJson())).toList());
-  final StreamController<PanelLayout> _panelController = StreamController.broadcast();
+  set searchEngines(List<SearchEngine> value) => prefs.setStringList(
+      'search-engines', value.map((e) => json.encode(e.toJson())).toList());
+  final StreamController<PanelLayout> _panelController =
+      StreamController.broadcast();
 
   Stream<PanelLayout> get panelChanged => _panelController.stream;
   bool _editing = false;
@@ -31,7 +34,8 @@ class PanelService {
     _editingController.add(_editing);
   }
 
-  final StreamController<bool> _editingController = StreamController.broadcast();
+  final StreamController<bool> _editingController =
+      StreamController.broadcast();
 
   Stream<bool> get editChanged => _editingController.stream;
 

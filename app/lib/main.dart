@@ -13,9 +13,12 @@ void main() async {
   // load the shared preferences from disk before the app is started
   final prefs = await SharedPreferences.getInstance();
   GetIt.I.registerSingleton(PanelService(prefs));
-  if (!prefs.containsKey("search-engines")) {
+  if (!prefs.containsKey('search-engines')) {
     prefs.setStringList(
-        "search-engines", SearchEngine.defaultEngines.map((e) => json.encode(e.toJson())).toList());
+        'search-engines',
+        SearchEngine.defaultEngines
+            .map((e) => json.encode(e.toJson()))
+            .toList());
   }
 
   // create new theme controller, which will get the currently selected from shared preferences
@@ -37,7 +40,8 @@ class MyApp extends StatelessWidget {
           animation: themeController!,
           builder: (context, _) {
             // wrap app in inherited widget to provide the ThemeController to all pages
-            return ThemeControllerProvider(controller: themeController!, child: _buildApp());
+            return ThemeControllerProvider(
+                controller: themeController!, child: _buildApp());
           });
     }
     return _buildApp();
@@ -48,7 +52,9 @@ class MyApp extends StatelessWidget {
         themeMode: themeController?.currentTheme,
         theme: ThemeData(primarySwatch: Colors.blue),
         darkTheme: ThemeData(
-            brightness: Brightness.dark, primarySwatch: Colors.blue, primaryColor: Colors.blue),
-        home: HomePage(),
+            brightness: Brightness.dark,
+            primarySwatch: Colors.blue,
+            primaryColor: Colors.blue),
+        home: const HomePage(),
       );
 }

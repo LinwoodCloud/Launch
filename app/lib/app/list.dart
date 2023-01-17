@@ -14,8 +14,8 @@ class AppList extends StatelessWidget {
   AppList(
       {Key? key,
       this.apps = const [],
-      this.title = "",
-      this.description = "",
+      this.title = '',
+      this.description = '',
       this.trailing,
       this.leading})
       : super(key: key);

@@ -8,22 +8,26 @@ import 'service.dart';
 class EmptyPanel extends Panel {
   final double height;
 
-  EmptyPanel({this.height = 50.0});
-  EmptyPanel.fromJson(Map<String, dynamic> json) : height = json['height'] as double;
+  const EmptyPanel({this.height = 50.0});
+  EmptyPanel.fromJson(Map<String, dynamic> json)
+      : height = json['height'] as double;
   @override
-  Widget buildWidget(PanelLayout panelLayout, int index, BuildContext context) =>
+  Widget buildWidget(
+          PanelLayout panelLayout, int index, BuildContext context) =>
       EmptyPanelWidget(index: index, panelLayout: panelLayout);
 
   @override
-  Map<String, dynamic> toJson() => {"height": height, "type": "empty"};
+  Map<String, dynamic> toJson() => {'height': height, 'type': 'empty'};
 
-  EmptyPanel copyWith({double? height}) => EmptyPanel(height: height ?? this.height);
+  EmptyPanel copyWith({double? height}) =>
+      EmptyPanel(height: height ?? this.height);
 }
 
 class EmptyPanelWidget extends StatefulWidget {
   final int index;
   final PanelLayout panelLayout;
-  const EmptyPanelWidget({Key? key, required this.index, required this.panelLayout})
+  const EmptyPanelWidget(
+      {Key? key, required this.index, required this.panelLayout})
       : super(key: key);
 
   @override
@@ -55,7 +59,7 @@ class _EmptyPanelWidgetState extends State<EmptyPanelWidget> {
     return Align(
         alignment: Alignment.topCenter,
         child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
             child: Row(children: [
               Expanded(child: SizedBox(height: panel.height)),
               StreamBuilder<bool>(
@@ -67,40 +71,54 @@ class _EmptyPanelWidgetState extends State<EmptyPanelWidget> {
                           onSelected: (value) => value(),
                           itemBuilder: (context) => [
                                 PopupMenuItem(
-                                    child: Text("Height"),
+                                    child: const Text('Height'),
                                     value: () => showDialog(
                                         context: context,
                                         builder: (context) {
-                                          var _controller =
-                                              TextEditingController(text: panel.height.toString());
+                                          var controller =
+                                              TextEditingController(
+                                                  text:
+                                                      panel.height.toString());
                                           return AlertDialog(
-                                              title: Text("Set height"),
+                                              title: const Text('Set height'),
                                               content: TextField(
-                                                  controller: _controller,
-                                                  keyboardType: TextInputType.number,
-                                                  decoration: InputDecoration(
-                                                      labelText: "Height", hintText: "50")),
+                                                  controller: controller,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  decoration:
+                                                      const InputDecoration(
+                                                          labelText: 'Height',
+                                                          hintText: '50')),
                                               actions: [
                                                 TextButton(
-                                                    onPressed: () => Navigator.of(context).pop(),
-                                                    child: Text("CANCEL")),
+                                                    onPressed: () =>
+                                                        Navigator.of(context)
+                                                            .pop(),
+                                                    child:
+                                                        const Text('CANCEL')),
                                                 TextButton(
                                                     onPressed: () {
-                                                      Navigator.of(context).pop();
+                                                      Navigator.of(context)
+                                                          .pop();
                                                       setState(() {
                                                         panel = panel.copyWith(
                                                             height:
-                                                                double.tryParse(_controller.text));
-                                                        service.updatePanel(widget.index, panel);
+                                                                double.tryParse(
+                                                                    controller
+                                                                        .text));
+                                                        service.updatePanel(
+                                                            widget.index,
+                                                            panel);
                                                       });
                                                     },
-                                                    child: Text("OK"))
+                                                    child: const Text('OK'))
                                               ]);
                                         })),
-                                PopupMenuDivider(),
+                                const PopupMenuDivider(),
                                 ...PanelOptions.values
                                     .map((e) => PopupMenuItem(
-                                        child: Text(e.name), value: () => e.onTap(widget.index)))
+                                        child: Text(e.name),
+                                        value: () => e.onTap(widget.index)))
                                     .toList()
                               ]))
             ])));

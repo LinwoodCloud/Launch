@@ -8,7 +8,8 @@ class SearchEnginesSettingsPage extends StatefulWidget {
   const SearchEnginesSettingsPage({Key? key}) : super(key: key);
 
   @override
-  _SearchEnginesSettingsPageState createState() => _SearchEnginesSettingsPageState();
+  _SearchEnginesSettingsPageState createState() =>
+      _SearchEnginesSettingsPageState();
 }
 
 class _SearchEnginesSettingsPageState extends State<SearchEnginesSettingsPage> {
@@ -25,7 +26,7 @@ class _SearchEnginesSettingsPageState extends State<SearchEnginesSettingsPage> {
   Widget build(BuildContext context) {
     var searchEngines = service.searchEngines;
     return Scaffold(
-        appBar: AppBar(title: Text("Search engines")),
+        appBar: AppBar(title: const Text('Search engines')),
         body: ListView.builder(
             itemCount: searchEngines.length,
             itemBuilder: (context, index) => Dismissible(
@@ -47,35 +48,42 @@ class _SearchEnginesSettingsPageState extends State<SearchEnginesSettingsPage> {
                   var nameController = TextEditingController();
                   var queryUrlController = TextEditingController();
                   return AlertDialog(
-                      title: Text("Add search engine"),
+                      title: const Text('Add search engine'),
                       actions: [
                         TextButton(
-                            child: Text("CANCEL"), onPressed: () => Navigator.of(context).pop()),
+                            child: const Text('CANCEL'),
+                            onPressed: () => Navigator.of(context).pop()),
                         TextButton(
-                            child: Text("ADD"),
+                            child: const Text('ADD'),
                             onPressed: () {
-                              if (nameController.text.isEmpty || queryUrlController.text.isEmpty) {
+                              if (nameController.text.isEmpty ||
+                                  queryUrlController.text.isEmpty) {
                                 return;
                               }
-                              searchEngines = List<SearchEngine>.from(searchEngines);
+                              searchEngines =
+                                  List<SearchEngine>.from(searchEngines);
                               searchEngines.add(SearchEngine(
-                                  name: nameController.text, queryUrl: queryUrlController.text));
+                                  name: nameController.text,
+                                  queryUrl: queryUrlController.text));
                               Navigator.of(context).pop();
-                              setState(() => service.searchEngines = searchEngines);
+                              setState(
+                                  () => service.searchEngines = searchEngines);
                             })
                       ],
                       content: SingleChildScrollView(
                           child: Column(children: [
                         TextField(
                             controller: nameController,
-                            decoration: InputDecoration(labelText: "Name", hintText: "DuckDuckGo")),
+                            decoration: const InputDecoration(
+                                labelText: 'Name', hintText: 'DuckDuckGo')),
                         TextField(
                             controller: queryUrlController,
-                            decoration: InputDecoration(
-                                labelText: "Query-URL", hintText: "https://duckduckgo.com/?q=%s"))
+                            decoration: const InputDecoration(
+                                labelText: 'Query-URL',
+                                hintText: 'https://duckduckgo.com/?q=%s'))
                       ])));
                 }),
-            label: Text("Add search engine"),
-            icon: Icon(PhosphorIcons.plusLight)));
+            label: const Text('Add search engine'),
+            icon: const Icon(PhosphorIcons.plusLight)));
   }
 }

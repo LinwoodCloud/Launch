@@ -13,15 +13,15 @@ extension PanelOptionsExtension on PanelOptions {
   String get name {
     switch (this) {
       case PanelOptions.first:
-        return "First";
+        return 'First';
       case PanelOptions.previous:
-        return "Previous";
+        return 'Previous';
       case PanelOptions.next:
-        return "Next";
+        return 'Next';
       case PanelOptions.last:
-        return "Last";
+        return 'Last';
       case PanelOptions.remove:
-        return "Remove";
+        return 'Remove';
     }
   }
 
@@ -50,21 +50,26 @@ extension PanelOptionsExtension on PanelOptions {
 @immutable
 class PanelLayout {
   final List<Panel> panels;
-  PanelLayout({List<Panel> panels = const []}) : panels = List<Panel>.unmodifiable(panels);
+  PanelLayout({List<Panel> panels = const []})
+      : panels = List<Panel>.unmodifiable(panels);
   PanelLayout.fromJson(Map<String, dynamic> json)
-      : panels = List<Map<String, dynamic>>.from((json['panels'] as List<dynamic>?) ?? []).map((e) {
+      : panels = List<Map<String, dynamic>>.from(
+                (json['panels'] as List<dynamic>?) ?? [])
+            .map((e) {
           switch (e['type']) {
-            case "search-bar":
+            case 'search-bar':
               return SearchBarPanel.fromJson(e);
-            case "app-list":
+            case 'app-list':
               return AppListPanel.fromJson(e);
-            case "empty":
+            case 'empty':
             default:
               return EmptyPanel.fromJson(e);
           }
         }).toList();
 
-  Map<String, dynamic> toJson() => {"panels": panels.map((e) => e.toJson()).toList()};
+  Map<String, dynamic> toJson() =>
+      {'panels': panels.map((e) => e.toJson()).toList()};
 
-  PanelLayout copyWith({List<Panel>? panels}) => PanelLayout(panels: panels ?? this.panels);
+  PanelLayout copyWith({List<Panel>? panels}) =>
+      PanelLayout(panels: panels ?? this.panels);
 }

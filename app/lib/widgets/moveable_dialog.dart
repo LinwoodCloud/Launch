@@ -10,6 +10,6 @@ class MoveableDialog extends StatefulWidget {
 class _MoveableDialogState extends State<MoveableDialog> {
   @override
   Widget build(BuildContext context) {
-    return AlertDialog();
+    return const AlertDialog();
   }
 }

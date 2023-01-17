@@ -11,30 +11,33 @@ import 'service.dart';
 class AppListPanel extends Panel {
   final List<AppEntry> apps;
 
-  AppListPanel({this.apps = const []});
+  const AppListPanel({this.apps = const []});
   AppListPanel.fromJson(Map<String, dynamic> json)
       : apps = ((json['apps'] ?? []) as List<dynamic>).map((e) {
           switch (e['type']) {
-            case "url-entry":
+            case 'url-entry':
             default:
               return UrlEntry.fromJson(e as Map<String, dynamic>);
           }
         }).toList();
   @override
-  Widget buildWidget(PanelLayout panelLayout, int index, BuildContext context) =>
+  Widget buildWidget(
+          PanelLayout panelLayout, int index, BuildContext context) =>
       AppListPanelWidget(index: index, panelLayout: panelLayout);
 
-  AppListPanel copyWith({List<AppEntry>? apps}) => AppListPanel(apps: apps ?? this.apps);
+  AppListPanel copyWith({List<AppEntry>? apps}) =>
+      AppListPanel(apps: apps ?? this.apps);
 
   @override
   Map<String, dynamic> toJson() =>
-      {"type": "app-list", "apps": apps.map((e) => e.toJson()).toList()};
+      {'type': 'app-list', 'apps': apps.map((e) => e.toJson()).toList()};
 }
 
 class AppListPanelWidget extends StatefulWidget {
   final int index;
   final PanelLayout panelLayout;
-  const AppListPanelWidget({Key? key, required this.index, required this.panelLayout})
+  const AppListPanelWidget(
+      {Key? key, required this.index, required this.panelLayout})
       : super(key: key);
 
   @override
@@ -67,7 +70,7 @@ class _AppListPanelWidgetState extends State<AppListPanelWidget> {
       child: Align(
           alignment: Alignment.topCenter,
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
               child: Row(children: [
                 Expanded(
                     child: SingleChildScrollView(
@@ -80,123 +83,125 @@ class _AppListPanelWidgetState extends State<AppListPanelWidget> {
                                       showDialog(
                                           context: context,
                                           builder: (context) => AlertDialog(
-                                                title: Text("Configure app entry"),
+                                                title: const Text(
+                                                    'Configure app entry'),
                                                 actions: [
                                                   TextButton.icon(
-                                                      onPressed: () => Navigator.of(context).pop(),
-                                                      icon: Icon(PhosphorIcons.xLight),
-                                                      label: Text("CLOSE"))
+                                                      onPressed: () =>
+                                                          Navigator.of(context)
+                                                              .pop(),
+                                                      icon: const Icon(
+                                                          PhosphorIcons.xLight),
+                                                      label:
+                                                          const Text('CLOSE'))
                                                 ],
                                                 content: SingleChildScrollView(
                                                   child: Column(
                                                     children: [
                                                       ListTile(
-                                                          title: Text("Set name"),
+                                                          title: const Text(
+                                                              'Set name'),
                                                           onTap: () {
-                                                            Navigator.of(context).pop();
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
                                                             showDialog(
-                                                                context: context,
-                                                                builder: (context) {
-                                                                  var _controller =
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  var controller =
                                                                       TextEditingController();
                                                                   return AlertDialog(
-                                                                      title: Text("Set name"),
+                                                                      title: const Text(
+                                                                          'Set name'),
                                                                       content: TextField(
-                                                                          controller: _controller,
-                                                                          decoration: InputDecoration(
-                                                                              labelText: "Name",
-                                                                              hintText:
-                                                                                  "Website name")),
+                                                                          controller:
+                                                                              controller,
+                                                                          decoration: const InputDecoration(
+                                                                              labelText: 'Name',
+                                                                              hintText: 'Website name')),
                                                                       actions: [
                                                                         TextButton(
                                                                             onPressed: () =>
-                                                                                Navigator.of(
-                                                                                        context)
-                                                                                    .pop(),
-                                                                            child: Text("CANCEL")),
+                                                                                Navigator.of(context).pop(),
+                                                                            child: const Text('CANCEL')),
                                                                         TextButton(
-                                                                            onPressed: () {
-                                                                              Navigator.of(context)
-                                                                                  .pop();
+                                                                            onPressed:
+                                                                                () {
+                                                                              Navigator.of(context).pop();
                                                                               setState(() {
-                                                                                panel = panel.copyWith(
-                                                                                    apps: List<
-                                                                                            AppEntry>.from(
-                                                                                        panel.apps)
-                                                                                      ..[e.key] = (e
-                                                                                                  .value
-                                                                                              as UrlEntry)
-                                                                                          .copyWith(
-                                                                                              name:
-                                                                                                  _controller.text));
-                                                                                service.updatePanel(
-                                                                                    widget.index,
-                                                                                    panel);
+                                                                                panel = panel.copyWith(apps: List<AppEntry>.from(panel.apps)..[e.key] = (e.value as UrlEntry).copyWith(name: controller.text));
+                                                                                service.updatePanel(widget.index, panel);
                                                                               });
                                                                             },
-                                                                            child: Text("OK"))
+                                                                            child:
+                                                                                const Text('OK'))
                                                                       ]);
                                                                 });
                                                           }),
                                                       ListTile(
-                                                          title: Text("Set url"),
+                                                          title: const Text(
+                                                              'Set url'),
                                                           onTap: () {
-                                                            Navigator.of(context).pop();
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
                                                             showDialog(
-                                                                context: context,
-                                                                builder: (context) {
-                                                                  var _controller =
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  var controller =
                                                                       TextEditingController();
                                                                   return AlertDialog(
-                                                                      title: Text("Set url"),
+                                                                      title: const Text(
+                                                                          'Set url'),
                                                                       content: TextField(
-                                                                          controller: _controller,
-                                                                          decoration: InputDecoration(
-                                                                              labelText: "URL",
-                                                                              hintText:
-                                                                                  "https://example.com")),
+                                                                          controller:
+                                                                              controller,
+                                                                          decoration: const InputDecoration(
+                                                                              labelText: 'URL',
+                                                                              hintText: 'https://example.com')),
                                                                       actions: [
                                                                         TextButton(
                                                                             onPressed: () =>
-                                                                                Navigator.of(
-                                                                                        context)
-                                                                                    .pop(),
-                                                                            child: Text("CANCEL")),
+                                                                                Navigator.of(context).pop(),
+                                                                            child: const Text('CANCEL')),
                                                                         TextButton(
-                                                                            onPressed: () {
-                                                                              Navigator.of(context)
-                                                                                  .pop();
+                                                                            onPressed:
+                                                                                () {
+                                                                              Navigator.of(context).pop();
                                                                               setState(() {
-                                                                                panel = panel.copyWith(
-                                                                                    apps: List<
-                                                                                            AppEntry>.from(
-                                                                                        panel.apps)
-                                                                                      ..[e.key] = (e
-                                                                                                  .value
-                                                                                              as UrlEntry)
-                                                                                          .copyWith(
-                                                                                              url: _controller
-                                                                                                  .text));
-                                                                                service.updatePanel(
-                                                                                    widget.index,
-                                                                                    panel);
+                                                                                panel = panel.copyWith(apps: List<AppEntry>.from(panel.apps)..[e.key] = (e.value as UrlEntry).copyWith(url: controller.text));
+                                                                                service.updatePanel(widget.index, panel);
                                                                               });
                                                                             },
-                                                                            child: Text("OK"))
+                                                                            child:
+                                                                                const Text('OK'))
                                                                       ]);
                                                                 });
                                                           }),
                                                       ListTile(
-                                                          title: Text("Remove"),
+                                                          title: const Text(
+                                                              'Remove'),
                                                           onTap: () {
-                                                            Navigator.of(context).pop();
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
                                                             setState(() {
                                                               panel = panel.copyWith(
-                                                                  apps: List<AppEntry>.from(
-                                                                      panel.apps)
-                                                                    ..removeAt(e.key));
-                                                              service.updatePanel(
-                                                                  widget.index, panel);
+                                                                  apps: List<
+                                                                          AppEntry>.from(
+                                                                      panel
+                                                                          .apps)
+                                                                    ..removeAt(
+                                                                        e.key));
+                                                              service
+                                                                  .updatePanel(
+                                                                      widget
+                                                                          .index,
+                                                                      panel);
                                                             });
                                                           }),
                                                     ],
@@ -214,42 +219,58 @@ class _AppListPanelWidgetState extends State<AppListPanelWidget> {
                             onSelected: (value) => value(),
                             itemBuilder: (context) => [
                                   PopupMenuItem(
-                                      child: Text("Add"),
+                                      child: const Text('Add'),
                                       value: () => showDialog(
                                           context: context,
                                           builder: (context) {
-                                            var _controller = TextEditingController();
+                                            var controller =
+                                                TextEditingController();
                                             return AlertDialog(
-                                                title: Text("Set url"),
+                                                title: const Text('Set url'),
                                                 content: TextField(
-                                                    controller: _controller,
-                                                    keyboardType: TextInputType.url,
-                                                    decoration: InputDecoration(
-                                                        labelText: "URL",
-                                                        hintText: "https://example.com")),
+                                                    controller: controller,
+                                                    keyboardType:
+                                                        TextInputType.url,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                            labelText: 'URL',
+                                                            hintText:
+                                                                'https://example.com')),
                                                 actions: [
                                                   TextButton(
-                                                      onPressed: () => Navigator.of(context).pop(),
-                                                      child: Text("CANCEL")),
+                                                      onPressed: () =>
+                                                          Navigator.of(context)
+                                                              .pop(),
+                                                      child:
+                                                          const Text('CANCEL')),
                                                   TextButton(
                                                       onPressed: () async {
-                                                        Navigator.of(context).pop();
-                                                        var entry = await UrlEntry.create(
-                                                            Uri.parse(_controller.text));
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        var entry =
+                                                            await UrlEntry.create(
+                                                                Uri.parse(
+                                                                    controller
+                                                                        .text));
                                                         setState(() {
                                                           panel = panel.copyWith(
-                                                              apps: List<AppEntry>.from(panel.apps)
+                                                              apps: List<
+                                                                      AppEntry>.from(
+                                                                  panel.apps)
                                                                 ..add(entry));
-                                                          service.updatePanel(widget.index, panel);
+                                                          service.updatePanel(
+                                                              widget.index,
+                                                              panel);
                                                         });
                                                       },
-                                                      child: Text("OK"))
+                                                      child: const Text('OK'))
                                                 ]);
                                           })),
-                                  PopupMenuDivider(),
+                                  const PopupMenuDivider(),
                                   ...PanelOptions.values
                                       .map((e) => PopupMenuItem(
-                                          child: Text(e.name), value: () => e.onTap(widget.index)))
+                                          child: Text(e.name),
+                                          value: () => e.onTap(widget.index)))
                                       .toList()
                                 ]))
               ]))),

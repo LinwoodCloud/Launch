@@ -14,65 +14,74 @@ abstract class AppEntry {
   void onTap();
   Widget? buildWidget(BuildContext context);
 
-  AppEntry(this.name, {this.description = ""});
+  AppEntry(this.name, {this.description = ''});
   AppEntry.fromJson(Map<String, dynamic> json)
       : name = json['name'] as String,
         description = json['description'] as String;
 
-  Map<String, dynamic> toJson() => {"name": name, "description": description};
+  Map<String, dynamic> toJson() => {'name': name, 'description': description};
 }
 
 class UrlEntry extends AppEntry {
   final String url;
   final String icon;
 
-  UrlEntry(String name, {String description = "", required this.url, this.icon = ""})
+  UrlEntry(String name,
+      {String description = '', required this.url, this.icon = ''})
       : super(name, description: description);
   UrlEntry.fromJson(Map<String, dynamic> json)
       : url = json['url'] as String,
-        icon = json['icon'] as String? ?? "",
+        icon = json['icon'] as String? ?? '',
         super.fromJson(json);
 
   static Future<UrlEntry> create(Uri uri) async {
-    var icon = "";
+    var icon = '';
     var name = uri.toString();
-    var description = "";
+    var description = '';
     try {
-      var response = await http.read(Uri(host: uri.host, port: uri.port, scheme: uri.scheme));
+      var response = await http
+          .read(Uri(host: uri.host, port: uri.port, scheme: uri.scheme));
       var html = parse(response);
-      var headElement = html.getElementsByTagName("head").firstOrNull;
+      var headElement = html.getElementsByTagName('head').firstOrNull;
       if (headElement != null) {
         description = headElement
-                .getElementsByTagName("meta")
-                .firstWhereOrNull((element) => element.attributes["name"] == "description")
-                ?.attributes["content"] ??
+                .getElementsByTagName('meta')
+                .firstWhereOrNull(
+                    (element) => element.attributes['name'] == 'description')
+                ?.attributes['content'] ??
             description;
         int getSize(dom.Element e) =>
-            int.tryParse((e.attributes['sizes'] ?? "0x0").split("x").firstOrNull ?? "0") ?? 0;
+            int.tryParse(
+                (e.attributes['sizes'] ?? '0x0').split('x').firstOrNull ??
+                    '0') ??
+            0;
         var icons = <dom.Element>[];
         icons.addAll(html
-            .querySelectorAll("link")
-            .where((element) => element.attributes['rel']?.contains("icon") ?? false)
-            .where((element) => !(element.attributes['href']?.endsWith(".svg") ?? true))
+            .querySelectorAll('link')
+            .where((element) =>
+                element.attributes['rel']?.contains('icon') ?? false)
+            .where((element) =>
+                !(element.attributes['href']?.endsWith('.svg') ?? true))
             .toList()
-              ..sort((a, b) => (getSize(a) - 64).abs().compareTo((getSize(b) - 64).abs())));
+          ..sort((a, b) =>
+              (getSize(a) - 64).abs().compareTo((getSize(b) - 64).abs())));
         var iconTag = icons.firstOrNull;
         if (iconTag != null) {
-          var iconUrl = (iconTag.attributes['href'] ?? "").trim();
+          var iconUrl = (iconTag.attributes['href'] ?? '').trim();
 
           // Fix scheme relative URLs
           if (iconUrl.startsWith('//')) {
-            iconUrl = uri.scheme + ':' + iconUrl;
+            iconUrl = '${uri.scheme}:$iconUrl';
           }
 
           // Fix relative URLs
           if (iconUrl.startsWith('/')) {
-            iconUrl = uri.scheme + '://' + uri.host + iconUrl;
+            iconUrl = '${uri.scheme}://${uri.host}$iconUrl';
           }
 
           // Fix naked URLs
           if (!iconUrl.startsWith('http')) {
-            iconUrl = uri.scheme + '://' + uri.host + '/' + iconUrl;
+            iconUrl = '${uri.scheme}://${uri.host}/$iconUrl';
           }
 
           // Remove query strings
@@ -80,40 +89,51 @@ class UrlEntry extends AppEntry {
           icon = iconUrl;
         }
       }
-      name = headElement?.getElementsByTagName("title").firstOrNull?.innerHtml ?? name;
+      name =
+          headElement?.getElementsByTagName('title').firstOrNull?.innerHtml ??
+              name;
     } catch (e) {
-      print("Error: $e");
+      print('Error: $e');
     }
     if (icon.isEmpty) {
       try {
-        var imageUri =
-            Uri(host: uri.host, port: uri.port, scheme: uri.scheme, pathSegments: ["favicon.ico"]);
+        var imageUri = Uri(
+            host: uri.host,
+            port: uri.port,
+            scheme: uri.scheme,
+            pathSegments: ['favicon.ico']);
         var response = await http.get(imageUri);
         if (response.statusCode == 200) icon = imageUri.toString();
       } catch (e) {
-        print("Error: $e");
+        print('Error: $e');
       }
     }
     if (icon.isEmpty) {
       try {
-        var imageUri =
-            Uri(host: uri.host, port: uri.port, scheme: uri.scheme, pathSegments: ["favicon.png"]);
+        var imageUri = Uri(
+            host: uri.host,
+            port: uri.port,
+            scheme: uri.scheme,
+            pathSegments: ['favicon.png']);
         var response = await http.get(imageUri);
         if (response.statusCode == 200) icon = imageUri.toString();
       } catch (e) {
-        print("Error: $e");
+        print('Error: $e');
       }
     }
     if (name.isEmpty) {
       name = "${uri.host[0]}${uri.host.substring(1)}";
     }
 
-    return UrlEntry(name, url: uri.toString(), description: description, icon: icon);
+    return UrlEntry(name,
+        url: uri.toString(), description: description, icon: icon);
   }
 
   @override
   Widget? buildWidget(BuildContext context) {
-    return icon.isNotEmpty ? Image.network(icon, height: 42) : Icon(PhosphorIcons.globeLight);
+    return icon.isNotEmpty
+        ? Image.network(icon, height: 42)
+        : const Icon(PhosphorIcons.globeLight);
   }
 
   @override
@@ -121,10 +141,16 @@ class UrlEntry extends AppEntry {
 
   @override
   Map<String, dynamic> toJson() => super.toJson()
-    ..addAll(
-        {"type": "url-entry", "url": url, "name": name, "description": description, "icon": icon});
+    ..addAll({
+      'type': 'url-entry',
+      'url': url,
+      'name': name,
+      'description': description,
+      'icon': icon
+    });
 
-  UrlEntry copyWith({String? name, String? description, String? url, String? icon}) =>
+  UrlEntry copyWith(
+          {String? name, String? description, String? url, String? icon}) =>
       UrlEntry(name ?? this.name,
           url: url ?? this.url,
           description: description ?? this.description,
@@ -133,7 +159,7 @@ class UrlEntry extends AppEntry {
 
 class CommandEntry extends AppEntry {
   final String command;
-  CommandEntry(String name, {String description = "", required this.command})
+  CommandEntry(String name, {String description = '', required this.command})
       : super(name, description: description);
   @override
   void onTap() {
@@ -141,16 +167,19 @@ class CommandEntry extends AppEntry {
   }
 
   @override
-  Widget? buildWidget(BuildContext context) => Icon(PhosphorIcons.terminalLight);
+  Widget? buildWidget(BuildContext context) =>
+      const Icon(PhosphorIcons.terminalLight);
 
   @override
-  Map<String, dynamic> toJson() => {"type": "command-entry", "command": command};
+  Map<String, dynamic> toJson() =>
+      {'type': 'command-entry', 'command': command};
 }
 
 class SystemEntry extends AppEntry {
   final SystemCallback onClick;
   final Widget? widget;
-  SystemEntry(String name, {String description = "", required this.onClick, this.widget})
+  SystemEntry(String name,
+      {String description = '', required this.onClick, this.widget})
       : super(name, description: description);
 
   @override
@@ -160,5 +189,6 @@ class SystemEntry extends AppEntry {
   void onTap() => onClick();
 
   @override
-  Map<String, dynamic> toJson() => super.toJson()..addAll({"type": "system-entry"});
+  Map<String, dynamic> toJson() =>
+      super.toJson()..addAll({'type': 'system-entry'});
 }

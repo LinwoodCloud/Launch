@@ -17,13 +17,15 @@ class AppTile extends StatelessWidget {
         child: Container(
             height: 150,
             width: 150,
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(children: [
               Expanded(
                   child: IconTheme(
-                      data: IconThemeData(color: Theme.of(context).primaryColor, size: 42),
+                      data: IconThemeData(
+                          color: Theme.of(context).primaryColor, size: 42),
                       child: Builder(
-                          builder: (context) => entry.buildWidget(context) ?? Container()))),
+                          builder: (context) =>
+                              entry.buildWidget(context) ?? Container()))),
               Text(entry.name)
             ])),
       ),
