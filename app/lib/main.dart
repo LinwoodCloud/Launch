@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,14 +48,21 @@ class MyApp extends StatelessWidget {
     return _buildApp();
   }
 
-  Widget _buildApp() => MaterialApp(
-        title: 'Linwood Launcher',
-        themeMode: themeController?.currentTheme,
-        theme: ThemeData(primarySwatch: Colors.blue),
-        darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            primarySwatch: Colors.blue,
-            primaryColor: Colors.blue),
-        home: const HomePage(),
-      );
+  Widget _buildApp() {
+    return MaterialApp(
+      title: 'Linwood Launcher',
+      themeMode: themeController?.currentTheme,
+      // The Mandy red, light theme.
+      theme: FlexThemeData.light(
+        scheme: FlexScheme.mandyRed,
+        useMaterial3: true,
+      ),
+      // The Mandy red, dark theme.
+      darkTheme: FlexThemeData.dark(
+        scheme: FlexScheme.mandyRed,
+        useMaterial3: true,
+      ),
+      home: const HomePage(),
+    );
+  }
 }

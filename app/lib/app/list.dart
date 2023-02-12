@@ -36,7 +36,8 @@ class AppList extends StatelessWidget {
                   Expanded(
                       child: Column(
                     children: [
-                      Text(title, style: Theme.of(context).textTheme.headline5),
+                      Text(title,
+                          style: Theme.of(context).textTheme.headlineSmall),
                       Text(description)
                     ],
                   )),

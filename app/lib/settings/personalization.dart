@@ -41,7 +41,7 @@ class _PersonalizationSettingsPageState
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   child: Text(
                     'Theme',
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headlineSmall,
                     textAlign: TextAlign.center,
                   ),
                 ),
